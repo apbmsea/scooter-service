@@ -1,6 +1,7 @@
 import { setNavigate } from '@shared/utils/navigate';
 import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
+import { Theme, presetGpnDefault } from '@consta/uikit/Theme';
 
 const Layout = () => {
 	const navigate = useNavigate();
@@ -10,9 +11,11 @@ const Layout = () => {
 	}, [navigate]);
 
 	return (
-		<div className='app-layout'>
-			<Outlet />
-		</div>
+		<Theme preset={presetGpnDefault}>
+			<div className='app-layout'>
+				<Outlet />
+			</div>
+		</Theme>
 	);
 };
 
