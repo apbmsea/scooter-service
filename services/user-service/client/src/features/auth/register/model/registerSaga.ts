@@ -14,7 +14,7 @@ function* registerSaga(action: PayloadAction<RegisterPayload>) {
 	try {
 		yield* call(register, action.payload);
 		yield* put(registerSuccess());
-		yield* call(navigateTo, 'login');
+		yield* call(navigateTo, '/auth/login');
 	} catch (error: unknown) {
 		if (isHandledError(error)) {
 			yield* put(registerFailure(error.data.errors));
