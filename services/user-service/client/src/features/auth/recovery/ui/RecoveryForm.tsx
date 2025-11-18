@@ -66,7 +66,7 @@ const RecoveryForm = () => {
 				disabled={isLoading}
 			/>
 
-			<Button loading={isLoading} type='submit' label='Войти' />
+			<Button loading={isLoading} type='submit' label='Воcстановить' />
 		</form>
 	);
 };
