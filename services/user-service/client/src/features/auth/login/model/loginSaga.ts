@@ -5,11 +5,14 @@ import type { LoginPayload } from './login.types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { isHandledError } from '@shared/utils/isHandledError';
 import { navigateTo } from '@shared/utils/navigate';
+import { setUser } from '@entities/user';
 
 function* loginSaga(action: PayloadAction<LoginPayload>) {
 	try {
 		const response = yield* call(login, action.payload);
-		localStorage.setItem('accessToken', response.accessToken);
+		const { accessToken, user } = response;
+		localStorage.setItem('accessToken', accessToken);
+		yield* put(setUser(user));
 		yield* put(loginSuccess());
 		yield* call(navigateTo, 'home');
 	} catch (error: unknown) {

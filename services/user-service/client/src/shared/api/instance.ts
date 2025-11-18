@@ -1,7 +1,15 @@
 import type { HandledError } from '@shared/types/error.types';
 import axios from 'axios';
+import { store } from '@app/store/store';
+import { refreshRequest } from '@features/auth/refresh/model/refreshSlice';
 
 export const $api = axios.create({
+	baseURL: import.meta.env.VITE_SERVER_URL,
+	withCredentials: true,
+	timeout: 10000
+});
+
+export const $refresh = axios.create({
 	baseURL: import.meta.env.VITE_SERVER_URL,
 	withCredentials: true,
 	timeout: 10000
@@ -48,7 +56,8 @@ $api.interceptors.response.use(
 			case 401:
 				if (!originalRequest._isRetry) {
 					originalRequest._isRetry = true;
-					console.log('refresh');
+
+					await store.dispatch(refreshRequest());
 				}
 				break;
 
