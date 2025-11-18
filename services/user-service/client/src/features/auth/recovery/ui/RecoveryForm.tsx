@@ -3,17 +3,17 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@consta/uikit/Button';
 import { TextField } from '@consta/uikit/TextField';
 import type { RootState } from '@shared/types/store.types';
-import { clearFieldError, loginRequest } from '../model/loginSlice';
+import { clearFieldError, recoveryRequest } from '../model/recoverySlice';
 
-const LoginForm = () => {
+const RecoveryForm = () => {
 	const dispatch = useDispatch();
 	const { isLoading, errors } = useSelector(
-		(state: RootState) => state.login
+		(state: RootState) => state.recovery
 	);
 
 	const [form, setForm] = useState({
 		email: '',
-		password: ''
+		newPassword: ''
 	});
 
 	const handleChange =
@@ -28,7 +28,7 @@ const LoginForm = () => {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		dispatch(loginRequest(form));
+		dispatch(recoveryRequest(form));
 	};
 
 	return (
@@ -55,14 +55,14 @@ const LoginForm = () => {
 
 			<TextField
 				type='password'
-				label='Пароль'
+				label='Новый пароль'
 				placeholder='********'
 				required
 				withClearButton
-				value={form.password}
-				status={errors.password ? 'alert' : undefined}
-				caption={errors.password || ''}
-				onChange={handleChange('password')}
+				value={form.newPassword}
+				status={errors.newPassword ? 'alert' : undefined}
+				caption={errors.newPassword || ''}
+				onChange={handleChange('newPassword')}
 				disabled={isLoading}
 			/>
 
@@ -71,4 +71,4 @@ const LoginForm = () => {
 	);
 };
 
-export default LoginForm;
+export default RecoveryForm;
