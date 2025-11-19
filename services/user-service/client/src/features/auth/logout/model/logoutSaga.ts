@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
 import { logoutFailure, logoutRequest, logoutSuccess } from './logoutSlice';
 import { logout } from '../api/logout.api';
-import { resetUser } from '@entities/user';
+import { resetUser } from '@features/user';
 
 function* logoutSaga() {
 	try {

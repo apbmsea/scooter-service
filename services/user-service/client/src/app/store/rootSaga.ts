@@ -3,8 +3,9 @@ import { watchLogout } from '@features/auth/logout';
 import { watchRecovery } from '@features/auth/recovery';
 import { watchRefresh } from '@features/auth/refresh';
 import { watchRegister } from '@features/auth/register';
+import { watchUser } from '@features/user';
 import { all } from 'typed-redux-saga';
 
 export default function* rootSaga() {
-	yield all([watchRegister(), watchLogin(), watchRefresh(), watchLogout(), watchRecovery()]);
+	yield all([watchRegister(), watchLogin(), watchRefresh(), watchLogout(), watchRecovery(), watchUser()]);
 }

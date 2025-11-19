@@ -5,7 +5,7 @@ import type { LoginPayload } from './login.types';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { isHandledError } from '@shared/utils/isHandledError';
 import { navigateTo } from '@shared/utils/navigate';
-import { setUser } from '@entities/user';
+import { setUser } from '@features/user';
 
 function* loginSaga(action: PayloadAction<LoginPayload>) {
 	try {

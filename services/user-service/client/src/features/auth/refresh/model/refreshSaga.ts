@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
 import { refreshFailure, refreshRequest, refreshSuccess } from './refreshSlice';
 import { refresh } from '../api/refresh.api';
-import { setUser } from '@entities/user';
+import { setUser } from '@features/user';
 
 function* refreshSaga() {
 	try {

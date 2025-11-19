@@ -4,6 +4,7 @@ import { HomePage } from '@pages/HomePage';
 import { RegisterPage } from '@pages/RegisterPage';
 import { LoginPage } from '@pages/LoginPage';
 import { RecoveryPage } from '@pages/RecoveryPage';
+import { UserPage } from '@pages/UserPage';
 
 export const router = createBrowserRouter([
 	{
@@ -13,7 +14,8 @@ export const router = createBrowserRouter([
 			{ path: '/home', index: true, element: <HomePage /> },
 			{ path: '/auth/register', element: <RegisterPage /> },
 			{ path: '/auth/login', element: <LoginPage /> },
-			{ path: '/auth/forgot-password', element: <RecoveryPage /> }
+			{ path: '/auth/forgot-password', element: <RecoveryPage /> },
+			{ path: '/user/me', element: <UserPage /> }
 		]
 	}
 ]);

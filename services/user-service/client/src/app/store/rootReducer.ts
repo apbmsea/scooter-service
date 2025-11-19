@@ -1,4 +1,4 @@
-import { userReducer } from '@entities/user';
+import { userReducer } from '@features/user';
 import { loginReducer } from '@features/auth/login';
 import { logoutReducer } from '@features/auth/logout';
 import { recoveryReducer } from '@features/auth/recovery';
