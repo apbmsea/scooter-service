@@ -1,4 +1,4 @@
-import { RecoveryForm } from '@features/auth/recovery';
+import { RecoveryForm } from '@pages/RecoveryPage/features/recovery';
 
 const RecoveryPage = () => {
 	return (

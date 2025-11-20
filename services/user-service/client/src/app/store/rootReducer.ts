@@ -1,9 +1,9 @@
 import { userReducer } from '@features/user';
-import { loginReducer } from '@features/auth/login';
-import { logoutReducer } from '@features/auth/logout';
-import { recoveryReducer } from '@features/auth/recovery';
-import { refreshReducer } from '@features/auth/refresh';
-import { registerReducer } from '@features/auth/register';
+import { loginReducer } from '@pages/LoginPage/features/login';
+import { logoutReducer } from '@features/logout';
+import { recoveryReducer } from '@pages/RecoveryPage/features/recovery';
+import { refreshReducer } from '@features/refresh';
+import { registerReducer } from '@pages/RegisterPage/features/register';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({

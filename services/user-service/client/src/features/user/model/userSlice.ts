@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { User } from './user.types';
+import type { User } from '../../../entities/user/user.types';
 
 interface UserState {
 	user: User | null;
@@ -24,7 +24,7 @@ const userSlice = createSlice({
 			state.user = null;
 		},
 
-		getIUserRequest: (state) => {
+		getIUserRequest: state => {
 			state.isLoading = true;
 		},
 		getIUserSuccess: (state, action: PayloadAction<User>) => {
@@ -35,7 +35,15 @@ const userSlice = createSlice({
 			state.isLoading = false;
 		},
 
-		updateIUserRequest: (state, _action: PayloadAction<Omit<User, 'password' | 'id' | 'role'>>) => {
+		updateIUserRequest: (
+			state,
+			_action: PayloadAction<
+				Omit<
+					User,
+				 'id' | 'role' | 'createdAt' | 'updatedAt' | "password"
+				>
+			>
+		) => {
 			state.isLoading = true;
 		},
 		updateIUserSuccess: (state, action: PayloadAction<User>) => {
@@ -49,7 +57,7 @@ const userSlice = createSlice({
 			state.isLoading = false;
 			state.errors = action.payload;
 		},
-				clearFieldError: (state, action: PayloadAction<string>) => {
+		clearFieldError: (state, action: PayloadAction<string>) => {
 			delete state.errors[action.payload];
 		}
 	}

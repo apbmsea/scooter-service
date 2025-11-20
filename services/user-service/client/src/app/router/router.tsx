@@ -15,7 +15,7 @@ export const router = createBrowserRouter([
 			{ path: '/auth/register', element: <RegisterPage /> },
 			{ path: '/auth/login', element: <LoginPage /> },
 			{ path: '/auth/forgot-password', element: <RecoveryPage /> },
-			{ path: '/user/me', element: <UserPage /> }
+			{ path: '/users/me', element: <UserPage /> }
 		]
 	}
 ]);

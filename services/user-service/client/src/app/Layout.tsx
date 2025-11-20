@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Theme, presetGpnDefault } from '@consta/uikit/Theme';
 import { useDispatch } from 'react-redux';
-import { refreshRequest } from '@features/auth/refresh/model/refreshSlice';
+import { refreshRequest } from '@features/refresh/model/refreshSlice';
 
 const Layout = () => {
 	const dispatch = useDispatch();

@@ -1,8 +1,8 @@
-import { watchLogin } from '@features/auth/login';
-import { watchLogout } from '@features/auth/logout';
-import { watchRecovery } from '@features/auth/recovery';
-import { watchRefresh } from '@features/auth/refresh';
-import { watchRegister } from '@features/auth/register';
+import { watchLogin } from '@pages/LoginPage/features/login';
+import { watchLogout } from '@features/logout';
+import { watchRecovery } from '@pages/RecoveryPage/features/recovery';
+import { watchRefresh } from '@features/refresh';
+import { watchRegister } from '@pages/RegisterPage/features/register';
 import { watchUser } from '@features/user';
 import { all } from 'typed-redux-saga';
 

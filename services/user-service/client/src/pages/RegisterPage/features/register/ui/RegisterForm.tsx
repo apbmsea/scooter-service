@@ -1,42 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import {
+	clearFieldError,
+	registerRequest
+} from '@pages/RegisterPage/features/register/model/registerSlice';
 import { Button } from '@consta/uikit/Button';
 import { TextField } from '@consta/uikit/TextField';
 import type { RootState } from '@shared/types/store.types';
-import {
-	clearFieldError,
-	getIUserRequest,
-	updateIUserRequest
-} from '../model/userSlice';
 
-const UserForm = () => {
-	const { isLoading, errors, user } = useSelector(
-		(state: RootState) => state.user
-	);
+const RegisterForm = () => {
 	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(getIUserRequest());
-	}, [dispatch]);
+	const { isLoading, errors } = useSelector(
+		(state: RootState) => state.register
+	);
 
 	const [form, setForm] = useState({
 		email: '',
 		firstName: '',
 		lastName: '',
-		phone: ''
+		phone: '',
+		password: ''
 	});
-
-	useEffect(() => {
-		if (user) {
-			// eslint-disable-next-line react-hooks/set-state-in-effect
-			setForm({
-				email: user.email || '',
-				firstName: user.firstName || '',
-				lastName: user.lastName || '',
-				phone: user.phone || ''
-			});
-		}
-	}, [user]);
 
 	const handleChange =
 		(field: keyof typeof form) => (value: string | null) => {
@@ -50,7 +34,7 @@ const UserForm = () => {
 
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		dispatch(updateIUserRequest(form));
+		dispatch(registerRequest(form));
 	};
 
 	return (
@@ -111,9 +95,22 @@ const UserForm = () => {
 				disabled={isLoading}
 			/>
 
+			<TextField
+				type='password'
+				label='Пароль'
+				placeholder='********'
+				required
+				withClearButton
+				value={form.password}
+				status={errors.password ? 'alert' : undefined}
+				caption={errors.password || ''}
+				onChange={handleChange('password')}
+				disabled={isLoading}
+			/>
+
 			<Button loading={isLoading} type='submit' label='Продолжить' />
 		</form>
 	);
 };
 
-export default UserForm;
+export default RegisterForm;

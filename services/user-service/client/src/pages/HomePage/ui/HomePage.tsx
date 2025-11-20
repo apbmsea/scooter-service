@@ -1,4 +1,4 @@
-import { logoutRequest } from '@features/auth/logout';
+import { logoutRequest } from '@features/logout';
 import type { RootState } from '@shared/types/store.types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';

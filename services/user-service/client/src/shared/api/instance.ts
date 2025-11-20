@@ -1,7 +1,7 @@
 import type { HandledError } from '@shared/types/error.types';
 import axios from 'axios';
 import { store } from '@app/store/store';
-import { refreshRequest } from '@features/auth/refresh/model/refreshSlice';
+import { refreshRequest } from '@features/refresh/model/refreshSlice';
 
 export const $api = axios.create({
 	baseURL: import.meta.env.VITE_SERVER_URL,

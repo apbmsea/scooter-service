@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'typed-redux-saga';
-import { getIUser, updateIUser } from '../api/user.api';
+import { getIUser, updateIUser } from '../../../entities/user/user.api';
 import {
 	getIUserFailure,
 	getIUserRequest,
@@ -9,13 +9,13 @@ import {
 	updateIUserSuccess
 } from './userSlice';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import type { User } from './user.types';
+import type { User } from '../../../entities/user/user.types';
 import { navigateTo } from '@shared/utils/navigate';
+import { isHandledError } from '@shared/utils/isHandledError';
 
 function* getIUserSaga() {
 	try {
-		const response = yield* call(getIUser);
-		const { user } = response;
+		const user = yield* call(getIUser);
 		yield* put(getIUserSuccess(user));
 	} catch (error: unknown) {
 		yield* put(getIUserFailure());
@@ -25,13 +25,15 @@ function* getIUserSaga() {
 
 function* updateIUserSaga(action: PayloadAction<User>) {
 	try {
-		const response = yield* call(updateIUser, action.payload);
-		const { user } = response;
+		const user = yield* call(updateIUser, action.payload);
 		yield* put(updateIUserSuccess(user));
 		yield* call(navigateTo, '/home');
 	} catch (error: unknown) {
-		yield* put(updateIUserFailure({}));
-		console.log(error);
+		if (isHandledError(error)) {
+			yield* put(updateIUserFailure(error.data.errors));
+		} else {
+			yield* put(updateIUserFailure({}));
+		}
 	}
 }
 
