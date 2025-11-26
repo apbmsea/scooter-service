@@ -15,7 +15,7 @@ function App() {
 	}, [navigate]);
 
 	return (
-		<Theme preset={presetGpnDefault}>
+		<Theme style={{ height: '100%', width: '100%' }} preset={presetGpnDefault}>
 			<Provider store={store}>
 				<Routes>
 					<Route path='/me' element={<UserPage />} />

@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
-import { clearFieldError, registerRequest } from '@pages/RegisterPage/features/register/model/registerSlice';
+import {
+	clearFieldError,
+	registerRequest
+} from '@pages/RegisterPage/features/register/model/registerSlice';
 import { Button } from '@consta/uikit/Button';
 import { TextField } from '@consta/uikit/TextField';
+import { Link } from 'react-router-dom';
+import { useMaskito } from '@maskito/react';
+import { maskitoPhoneOptions } from '@shared/utils/maskPhoneOptions';
 
 const RegisterForm = () => {
 	const dispatch = useAppDispatch();
@@ -16,6 +22,8 @@ const RegisterForm = () => {
 		password: ''
 	});
 
+	const phoneMask = useMaskito({ options: maskitoPhoneOptions });
+
 	const handleChange =
 		(field: keyof typeof form) => (value: string | null) => {
 			const newValue = value ?? '';
@@ -26,9 +34,20 @@ const RegisterForm = () => {
 			}
 		};
 
+	const normalizePhone = (maskedPhone: string) => {
+		const digits = maskedPhone.replace(/\D/g, '');
+		return '+' + digits;
+	};
+
 	const handleSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
-		dispatch(registerRequest(form));
+
+		const payload = {
+			...form,
+			phone: normalizePhone(form.phone)
+		};
+
+		dispatch(registerRequest(payload));
 	};
 
 	return (
@@ -41,11 +60,13 @@ const RegisterForm = () => {
 			}}
 			onSubmit={handleSubmit}
 		>
+			<h2>Регистрация</h2>
+
 			<TextField
 				label='Почта'
-				placeholder='example@gmail.com'
 				required
 				withClearButton
+				placeholder='example@gmail.com'
 				value={form.email}
 				status={errors.email ? 'alert' : undefined}
 				caption={errors.email || ''}
@@ -55,9 +76,9 @@ const RegisterForm = () => {
 
 			<TextField
 				label='Имя'
-				placeholder='Иван'
 				required
 				withClearButton
+				placeholder='Иван'
 				value={form.firstName}
 				status={errors.firstName ? 'alert' : undefined}
 				caption={errors.firstName || ''}
@@ -67,9 +88,9 @@ const RegisterForm = () => {
 
 			<TextField
 				label='Фамилия'
-				placeholder='Иванов'
 				required
 				withClearButton
+				placeholder='Иванов'
 				value={form.lastName}
 				status={errors.lastName ? 'alert' : undefined}
 				caption={errors.lastName || ''}
@@ -79,9 +100,9 @@ const RegisterForm = () => {
 
 			<TextField
 				label='Телефон'
-				placeholder='Введите номер'
 				required
-				withClearButton
+				placeholder='+7 (999) 999-99-99'
+				inputRef={phoneMask}
 				value={form.phone}
 				status={errors.phone ? 'alert' : undefined}
 				caption={errors.phone || ''}
@@ -92,9 +113,9 @@ const RegisterForm = () => {
 			<TextField
 				type='password'
 				label='Пароль'
-				placeholder='********'
 				required
 				withClearButton
+				placeholder='********'
 				value={form.password}
 				status={errors.password ? 'alert' : undefined}
 				caption={errors.password || ''}
@@ -103,6 +124,18 @@ const RegisterForm = () => {
 			/>
 
 			<Button loading={isLoading} type='submit' label='Продолжить' />
+
+			<Link
+				style={{
+					fontSize: '.8rem',
+					textAlign: 'center',
+					color: 'rgba(0, 173, 253, 1)',
+					cursor: 'pointer'
+				}}
+				to='/auth/login'
+			>
+				Уже есть аккаунт? Вход
+			</Link>
 		</form>
 	);
 };

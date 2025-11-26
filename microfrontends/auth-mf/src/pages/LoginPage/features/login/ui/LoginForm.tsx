@@ -3,6 +3,7 @@ import { Button } from '@consta/uikit/Button';
 import { TextField } from '@consta/uikit/TextField';
 import { clearFieldError, loginRequest } from '../model/loginSlice';
 import { useAppDispatch, useAppSelector } from '@shared/hooks/store.hooks';
+import { Link } from 'react-router-dom';
 
 const LoginForm = () => {
 	const dispatch = useAppDispatch();
@@ -49,6 +50,8 @@ const LoginForm = () => {
 			}}
 			onSubmit={handleSubmit}
 		>
+			<h2>Вход в аккаунт</h2>
+
 			<TextField
 				label='Почта'
 				placeholder='example@gmail.com'
@@ -74,7 +77,30 @@ const LoginForm = () => {
 				disabled={isLoading}
 			/>
 
+			<Link
+				style={{
+					fontSize: '.8rem',
+					color: 'rgba(0, 173, 253, 1)',
+					cursor: 'pointer'
+				}}
+				to='/auth/forgot-password'
+			>
+				Забыли пароль?
+			</Link>
+
 			<Button loading={isLoading} type='submit' label='Войти' />
+
+			<Link
+				style={{
+					fontSize: '.8rem',
+					textAlign: 'center',
+					color: 'rgba(0, 173, 253, 1)',
+					cursor: 'pointer'
+				}}
+				to='/auth/register'
+			>
+				Нет аккаунта? Регистрация
+			</Link>
 		</form>
 	);
 };

@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@consta/uikit": "^5.27.1",
+    "@maskito/core": "^4.0.1",
+    "@maskito/react": "^4.0.1",
     "@reduxjs/toolkit": "^2.11.0",
     "axios": "^1.13.2",
     "react": "^19.2.0",
@@ -31,6 +33,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "sass-embedded": "^1.93.3",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4"

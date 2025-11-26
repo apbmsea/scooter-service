@@ -4,12 +4,9 @@ import { Button } from '@consta/uikit/Button';
 import { TextField } from '@consta/uikit/TextField';
 import { clearFieldError, recoveryRequest } from '../model/recoverySlice';
 
-
 const RecoveryForm = () => {
 	const dispatch = useAppDispatch();
-	const { isLoading, errors } = useAppSelector(
-		(state) => state.recovery
-	);
+	const { isLoading, errors } = useAppSelector(state => state.recovery);
 
 	const [form, setForm] = useState({
 		email: '',
@@ -52,6 +49,8 @@ const RecoveryForm = () => {
 			}}
 			onSubmit={handleSubmit}
 		>
+			<h2>Восстановление аккаунта</h2>
+
 			<TextField
 				label='Почта'
 				placeholder='example@gmail.com'
