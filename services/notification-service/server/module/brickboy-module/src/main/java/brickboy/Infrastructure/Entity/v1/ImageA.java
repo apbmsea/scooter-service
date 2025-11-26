@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "image")
-public class Image {
+public class ImageA {
     @Id
     private UUID id;
     @Column(nullable = false)

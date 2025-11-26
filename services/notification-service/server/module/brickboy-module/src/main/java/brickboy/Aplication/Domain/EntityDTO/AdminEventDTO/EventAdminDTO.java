@@ -1,4 +1,4 @@
-package brickboy.Aplication.Domain.EntityDTO;
+package brickboy.Aplication.Domain.EntityDTO.AdminEventDTO;
 
 import java.util.UUID;
 

@@ -1,7 +1,7 @@
 package brickboy.Infrastructure.Mappers.v1;
 
-import brickboy.Aplication.Domain.EntityDTO.EventAdminDTO;
-import brickboy.Aplication.Domain.EntityDTO.patchDTO;
+import brickboy.Aplication.Domain.EntityDTO.AdminEventDTO.EventAdminDTO;
+import brickboy.Aplication.Domain.EntityDTO.ImageDTO.patchDTO;
 import brickboy.Infrastructure.Entity.v1.EventListA;
 
 

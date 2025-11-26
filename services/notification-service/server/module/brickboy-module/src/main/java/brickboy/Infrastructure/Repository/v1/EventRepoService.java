@@ -1,7 +1,6 @@
-package brickboy.Presetation.Controllers.v1;
+package brickboy.Infrastructure.Repository.v1;
 
 
-import brickboy.Aplication.Domain.EntityDTO.patchDTO;
 import brickboy.Infrastructure.Entity.v1.EventListA;
 import brickboy.Infrastructure.Implimentation.v1.RepositpryEventListImp;
 import jakarta.transaction.Transactional;
@@ -19,8 +18,8 @@ public class EventRepoService {
         this.repoELImp = repoELImp;
     }
 
-public EventListA save(EventListA eventListA) {
+    public EventListA save(EventListA eventListA) {
         return repoELImp.save(eventListA);
-}
+    }
 }
 

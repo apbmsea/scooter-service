@@ -86,7 +86,12 @@
         </dependency>
 
         <!--END-->
-
+        <!--ENV-->
+        <dependency>
+            <groupId>io.github.cdimascio</groupId>
+            <artifactId>java-dotenv</artifactId>
+            <version>5.2.2</version> <!-- Уточните версию, подходящую вашему проекту -->
+        </dependency>
         <!--ORM PostgresSQL-->
         <dependency>
             <groupId>org.hibernate</groupId>

@@ -1,4 +1,4 @@
-package brickboy.Aplication.Domain.EntityDTO;
+package brickboy.Aplication.Domain.EntityDTO.ImageDTO;
 
 import java.util.UUID;
 
