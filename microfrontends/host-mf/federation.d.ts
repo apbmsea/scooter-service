@@ -10,3 +10,13 @@ declare module "headerMF/App" {
   const HeaderMF: React.ComponentType;
   export default HeaderMF;
 }
+
+declare module "sharedMF/event" {
+  export const event: {
+    emit: <T = unknown>(event: string, detail?: T) => void;
+    on: <T = unknown>(
+      event: string,
+      callback: (detail?: T) => void
+    ) => () => void;
+  };
+}

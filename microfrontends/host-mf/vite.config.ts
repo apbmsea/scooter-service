@@ -10,6 +10,7 @@ export default defineConfig({
       filename: "remoteEntry.js",
       remotes: {
         authMF: "http://localhost:5001/assets/remoteEntry.js",
+        sharedMF: 'https://localhost:5002/assets/remoteEntry.js',
         userMF: "http://localhost:5003/assets/remoteEntry.js",
         headerMF: "http://localhost:5004/assets/remoteEntry.js",
       },

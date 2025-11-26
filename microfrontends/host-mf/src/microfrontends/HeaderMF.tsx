@@ -1,15 +1,14 @@
-import React, { Suspense, useState } from "react";
+import React, { Suspense } from "react";
+import LoadingWidget from "../widgets/LoadingWidget/ui/LoadingWidget";
 
 const HeaderMFLazy = React.lazy(() =>
   import("headerMF/App").catch(() => ({ default: () => null }))
 );
 
 const HeaderMF = () => {
-  const [failed] = useState(false);
-
   return (
-    <Suspense fallback={<div>Загрузка…</div>}>
-      {!failed ? <HeaderMFLazy /> : <div>Микросервис не загрузился</div>}
+    <Suspense fallback={<LoadingWidget active={true} />}>
+      <HeaderMFLazy />
     </Suspense>
   );
 };
