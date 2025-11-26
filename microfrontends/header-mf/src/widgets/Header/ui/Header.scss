@@ -2,13 +2,23 @@
   background: #006af5;
   width: 100%;
 
+  &__logo {
+    font-weight: 600;
+    font-size: 2rem;
+    color: #fff;
+    margin: 0;
+    cursor: pointer;
+  }
+
   &__navbar {
-    &-logo {
-      font-weight: 600;
-      font-size: 2rem;
-      color: #fff;
-      margin: 0;
-      cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+
+    a {
+      font-size: 1.2rem;
+      color: #c7c7c7;
+      text-decoration: none;
     }
   }
 
@@ -21,7 +31,7 @@
       border-radius: 32px;
       border: none;
       cursor: pointer;
-      transition: ease-in-out .2s;
+      transition: ease-in-out 0.2s;
     }
 
     button:hover {

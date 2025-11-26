@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { logout } from "authMF/logout";
 import "./Header.scss";
 import { useEffect, useState } from "react";
@@ -33,6 +33,7 @@ const Header = () => {
       } catch (err: unknown) {
         if (err instanceof Error) console.error(err.message);
         else console.error(err);
+        setUser(null);
       }
     };
 
@@ -48,7 +49,7 @@ const Header = () => {
   useEffect(() => {
     const fetchRefreshEffect = async () => {
       try {
-        refresh()
+        refresh();
       } catch (err: unknown) {
         if (err instanceof Error) console.error(err.message);
         else console.error(err);
@@ -65,10 +66,23 @@ const Header = () => {
   return (
     <header className="header">
       <section className="container">
+        <h1 className="header__logo" onClick={() => navigate("/home")}>
+          Самокат
+        </h1>
         <nav className="header__navbar">
-          <h1 className="header__navbar-logo" onClick={() => navigate("/home")}>
-            Самокат
-          </h1>
+          {user?.role === "ADMIN" ? (
+            <>
+              <Link to="/admin-panel">Админ панель</Link>
+              <Link to="/statistics">Статистика</Link>
+              <Link to="/server-info">Состояние Серверов</Link>
+            </>
+          ) : (
+            <>
+              <Link to="/home">Главная</Link>
+              <Link to="/map">Карта</Link>
+              <Link to="/info">Информация</Link>
+            </>
+          )}
         </nav>
         <div className="header__buttons">
           {user ? (
