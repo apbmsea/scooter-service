@@ -14,6 +14,23 @@ export const $refresh = axios.create({
   timeout: 10000,
 });
 
+$refresh.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.status == 401) {
+      event.emit("navigate", {
+        path: "/auth/login",
+      });
+    }
+
+    return Promise.reject(error);
+  }
+);
+
+event.emit("navigate", {
+  path: "/auth/login",
+});
+
 $api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");
   if (token) {
