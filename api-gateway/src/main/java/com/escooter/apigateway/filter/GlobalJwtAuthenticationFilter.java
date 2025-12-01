@@ -62,7 +62,10 @@ public class GlobalJwtAuthenticationFilter implements GlobalFilter, Ordered {
     private boolean isPublicEndpoint(String path) {
         return path.startsWith("/auth/") || 
                path.startsWith("/actuator/") ||
-               path.startsWith("/monitoring/");
+               path.startsWith("/monitoring/") ||
+               path.startsWith("/swagger-ui") ||
+               path.startsWith("/v3/api-docs") ||
+               path.startsWith("/swagger-ui.html");
     }
 
     private Claims validateToken(String token) {
