@@ -26,6 +26,7 @@ public class AuthenticationService {
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final UserEventProducer userEventProducer;
 
     @Transactional
     public User signup(RegisterRequest request) {
@@ -50,6 +51,9 @@ public class AuthenticationService {
 
         User savedUser = userRepository.save(user);
         log.info("User successfully registered with ID: {}", savedUser.getId());
+
+        // Отправляем событие в RabbitMQ
+        userEventProducer.sendUserCreatedEvent(savedUser);
 
         return savedUser;
     }
@@ -212,6 +216,9 @@ public class AuthenticationService {
         }
 
         log.info("User updated successfully: {}", updatedUser.getEmail());
+
+        // Отправляем событие в RabbitMQ
+        userEventProducer.sendUserUpdatedEvent(updatedUser);
 
         return updatedUser;
     }

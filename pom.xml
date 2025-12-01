@@ -106,6 +106,12 @@
             <artifactId>zipkin-reporter-brave</artifactId>
         </dependency>
 
+        <!-- RabbitMQ для асинхронной коммуникации -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
