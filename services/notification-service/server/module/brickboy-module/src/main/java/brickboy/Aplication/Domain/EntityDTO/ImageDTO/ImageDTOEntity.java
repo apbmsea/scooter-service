@@ -1,7 +1,9 @@
 package brickboy.Aplication.Domain.EntityDTO.ImageDTO;
 
-import java.util.UUID;
+import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+@Component
 public class ImageDTOEntity {
 //    private UUID id;
     private String filename;

@@ -1,7 +1,9 @@
 package brickboy.Presetation.Controllers.v1;
 
 import brickboy.Aplication.Domain.EntityDTO.AdminEventDTO.EventAdminDTO;
-import brickboy.Aplication.Domain.EntityDTO.ImageDTO.FileFrontDto;
+import brickboy.Aplication.Domain.EntityDTO.ImageDTO.FileFrontDTOUpdate;
+import brickboy.Aplication.Domain.EntityDTO.ImageDTO.FileFrontDtoSave;
+import brickboy.Aplication.Domain.EntityDTO.ImageDTO.OutDTOImage;
 import brickboy.Aplication.useCase.v1.GetAndSaveImage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,7 +21,7 @@ public class ControlerAdminData {
     private GetAndSaveImage getAndSaveImage;
 
 
-    @PostMapping
+    @PostMapping("/event/save")
     public ResponseEntity<EventAdminDTO> addEvent(@RequestBody EventAdminDTO dto) {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
@@ -37,17 +39,35 @@ public class ControlerAdminData {
 
 
     @PostMapping("/files/upload")
-    public ResponseEntity<?> handleFileUpload(@RequestBody FileFrontDto dto) {
+    public ResponseEntity<?> handleFileUpload(@RequestBody FileFrontDtoSave dto) {
         if (dto.getFile().isEmpty()) {
             return ResponseEntity.badRequest().body("No file provided!");
         }
         try {
-            getAndSaveImage.GetAndSaveImage(dto);
-        } catch (Exception e) {}
 
-//            применяю юзкей
+            return ResponseEntity.ok(getAndSaveImage.GetAndSaveImage(dto));
+        } catch (Exception e) {
+            return ResponseEntity.ok("File invalid! or ERROR:" + e.getMessage());
+        }
 
-        return ResponseEntity.ok("File uploaded successfully!");
     }
+@PostMapping("/filles/update")
+    public ResponseEntity<?> handleFileUpdate(@RequestBody FileFrontDTOUpdate dto) {
+    if (dto.getNewfile().isEmpty()) {
+        return ResponseEntity.badRequest().body("No file provided!");
+    }
+    try {
+        // return String patchToImg
+        return ResponseEntity.ok(getAndSaveImage.UpdateAndSaveImage(dto));
+    } catch (Exception e) {
+        return ResponseEntity.ok("File invalid! or ERROR:" + e.getMessage());
+    }
+}
+
+
+/*
+        Добавить старит эвент
+        стоп эвент
+ */
 
 }

@@ -1,59 +1,74 @@
 package brickboy.Aplication.useCase.v1;
 
-import brickboy.Aplication.Domain.EntityDTO.ImageDTO.FileFrontDto;
+import brickboy.Aplication.Domain.EntityDTO.ImageDTO.FileFrontDTOUpdate;
+import brickboy.Aplication.Domain.EntityDTO.ImageDTO.FileFrontDtoSave;
 import brickboy.Aplication.Domain.EntityDTO.ImageDTO.ImageDTOEntity;
 import brickboy.Infrastructure.Entity.v1.ImageA;
 import brickboy.Infrastructure.Mappers.v1.ImageMapper;
 import brickboy.Infrastructure.Repository.File.FileManager;
 import brickboy.Infrastructure.Repository.File.FileRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class GetAndSaveImage {
-    /*
-    здесь должно пройзойти следущее
-
-    Применяем проверку на jpeg img png
-
-    мы получаем файл
-    пилим его на
-    название
-
-    проименяем мапер
-    сохраняем в базу мета данные
-    само изображение пишем на диск через файловый менеджер
-
-
-
-     */
+    @Autowired
     private FileRepo fileRepo;
-
+    @Autowired
     private final FileManager fileManager;
+    @Autowired
+    private ImageMapper imageMapper;
 
     public GetAndSaveImage(FileManager fileManager) {
         this.fileManager = fileManager;
     }
 
 
-    public ImageA GetAndSaveImage(FileFrontDto fileFrontDto) {
+    public String GetAndSaveImage(FileFrontDtoSave fileFrontDtoSave) {
 
-        if (!fileFrontDto.getFile().getOriginalFilename().toLowerCase().endsWith(".jpg")
-                && !fileFrontDto.getFile().getOriginalFilename().toLowerCase().endsWith(".jpeg")
-                && !fileFrontDto.getFile().getOriginalFilename().toLowerCase().endsWith(".png")) {
+        if (!fileFrontDtoSave.getFile().getOriginalFilename().toLowerCase().endsWith(".jpg") && !fileFrontDtoSave.getFile().getOriginalFilename().toLowerCase().endsWith(".jpeg") && !fileFrontDtoSave.getFile().getOriginalFilename().toLowerCase().endsWith(".png")) {
             throw new IllegalArgumentException("Неверный тип файла");
         }
-        String filename = fileFrontDto.getFile().getOriginalFilename();
-        String patch = fileManager.FileSave(fileFrontDto.getFile());
+        String filename = fileFrontDtoSave.getFile().getOriginalFilename();
+        String patch = fileManager.FileSave(fileFrontDtoSave.getFile());
 
 
         ImageDTOEntity iDTOE = new ImageDTOEntity();
         iDTOE.setFilename(filename);
         iDTOE.setPatchTOImge(patch);
-        iDTOE.setCreatorId(fileFrontDto.getCreatorId());
+        iDTOE.setCreatorId(fileFrontDtoSave.getCreatorId());
 
-        ImageMapper imageMapper = new ImageMapper();
+
         ImageA imageA = imageMapper.map(iDTOE);
         return fileRepo.saveImage(imageA);
     }
+
+    public String UpdateAndSaveImage(FileFrontDTOUpdate fileFrontDTOUpdate) {
+        if (!fileFrontDTOUpdate.getNewfile().getOriginalFilename().toLowerCase().endsWith(".jpg") && !fileFrontDTOUpdate.getNewfile().getOriginalFilename().toLowerCase().endsWith(".jpeg") && !fileFrontDTOUpdate.getNewfile().getOriginalFilename().toLowerCase().endsWith(".png")) {
+            throw new IllegalArgumentException("Неверный тип файла");
+        }
+
+        ImageA imageA = fileRepo.getImage(fileFrontDTOUpdate.getIdOld());
+        String oldFilename = imageA.getFilename();
+        String oldPatch = imageA.getPatchToImage();
+
+
+        fileManager.FileDelete(oldFilename);
+        fileRepo.deleteImage(fileFrontDTOUpdate.getIdOld());
+
+
+        String filename = fileFrontDTOUpdate.getNewfile().getOriginalFilename();
+        String patch = fileManager.FileSave(fileFrontDTOUpdate.getNewfile());
+
+        ImageDTOEntity iDTOE = new ImageDTOEntity();
+        iDTOE.setFilename(filename);
+        iDTOE.setPatchTOImge(patch);
+        iDTOE.setCreatorId(fileFrontDTOUpdate.getCreatorid());
+
+        ImageA imageAs = imageMapper.map(iDTOE);
+        return fileRepo.saveImage(imageAs);
+
+    }
+
+
 }

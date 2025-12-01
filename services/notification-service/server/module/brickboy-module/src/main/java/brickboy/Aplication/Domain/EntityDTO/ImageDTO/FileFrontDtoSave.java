@@ -4,7 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
-public class FileFrontDto {
+public class FileFrontDtoSave {
     private UUID CreatorId;
     private MultipartFile file;
 

@@ -2,10 +2,11 @@ package brickboy.Infrastructure.Mappers.v1;
 
 import brickboy.Aplication.Domain.EntityDTO.ImageDTO.ImageDTOEntity;
 import brickboy.Infrastructure.Entity.v1.ImageA;
+import org.springframework.stereotype.Component;
 
 import java.awt.*;
 import java.util.UUID;
-
+@Component
 public class ImageMapper {
 
     public ImageA map(ImageDTOEntity imageDTO) {

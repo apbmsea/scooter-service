@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.awt.*;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -19,8 +20,17 @@ public class FileRepo {
         this.repoImg = repoImg;
     }
 
+    // Metod
+    public String saveImage(ImageA image) {
+        ImageA imageA = repoImg.save(image);
+        return imageA.getPatchToImage();
+    }
 
-    public ImageA saveImage(ImageA image) {
-        return repoImg.save(image);
+    public ImageA getImage(UUID id) {
+        return repoImg.getReferenceById(id);
+    }
+
+    public void deleteImage(UUID id) {
+        repoImg.deleteById(id);
     }
 }

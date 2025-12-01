@@ -13,11 +13,12 @@ public class EventRepoService {
     @Autowired
     public final RepositpryEventListImp repoELImp;
 
-
+//Constructor
     public EventRepoService(RepositpryEventListImp repoELImp) {
         this.repoELImp = repoELImp;
     }
 
+//    Metod
     public EventListA save(EventListA eventListA) {
         return repoELImp.save(eventListA);
     }

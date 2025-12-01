@@ -12,11 +12,17 @@ public class EventListA {
     @Id
     private UUID id;
 
-    @Column(nullable = false, length = 400)
-    private String title;
+    @Column(nullable = false, length = 400, unique = true)
+    private String name;
+
+    @Column(nullable = false)
+    private String header;
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String budy;
+
+    @Column(nullable = false)
+    private UUID id_temlate;
 
     @Column(nullable = false)
     private UUID creator;
@@ -29,7 +35,6 @@ public class EventListA {
     @Column(nullable = true)
     private String patchToImage;
 
-
     public UUID getId() {
         return id;
     }
@@ -38,12 +43,20 @@ public class EventListA {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getHeader() {
+        return header;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
     }
 
     public String getBudy() {
@@ -77,4 +90,14 @@ public class EventListA {
     public void setPatchToImage(String patchToImage) {
         this.patchToImage = patchToImage;
     }
+
+    public UUID getId_temlate() {
+        return id_temlate;
+    }
+
+    public void setId_temlate(UUID id_temlate) {
+        this.id_temlate = id_temlate;
+    }
 }
+
+
