@@ -76,7 +76,7 @@ public class AuthenticationService {
             throw new AuthException("Неверный пароль");
         }
 
-        String accessToken = jwtUtil.generateAccessToken(user.getId(), user.getEmail());
+        String accessToken = jwtUtil.generateAccessToken(user.getId(), user.getEmail(), user.getRole().name());
         String refreshToken = jwtUtil.generateRefreshToken(user.getId());
 
         log.info("Successful authentication for user: {}", request.getEmail());
@@ -116,7 +116,7 @@ public class AuthenticationService {
                     return new UserNotFoundException("Пользователь не найден");
                 });
 
-        String newAccessToken = jwtUtil.generateAccessToken(user.getId(), user.getEmail());
+        String newAccessToken = jwtUtil.generateAccessToken(user.getId(), user.getEmail(), user.getRole().name());
         String newRefreshToken = jwtUtil.generateRefreshToken(user.getId());
 
         log.info("Refresh token successful for user: {}", user.getEmail());
