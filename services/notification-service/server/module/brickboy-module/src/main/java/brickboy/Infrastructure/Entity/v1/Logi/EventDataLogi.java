@@ -1,14 +1,13 @@
-package brickboy.Infrastructure.Entity.v1;
+package brickboy.Infrastructure.Entity.v1.Logi;
 
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.sql.Date;
 import java.util.UUID;
-
 @Entity
-@Table(name = "event_ads")
-public class EventListA {
+@Table(name = "event_data_logs")
+public class EventDataLogi {
     @Id
     private UUID id;
 
@@ -67,6 +66,14 @@ public class EventListA {
         this.budy = budy;
     }
 
+    public UUID getId_temlate() {
+        return id_temlate;
+    }
+
+    public void setId_temlate(UUID id_temlate) {
+        this.id_temlate = id_temlate;
+    }
+
     public UUID getCreator() {
         return creator;
     }
@@ -91,13 +98,4 @@ public class EventListA {
         this.patchToImage = patchToImage;
     }
 
-    public UUID getId_temlate() {
-        return id_temlate;
-    }
-
-    public void setId_temlate(UUID id_temlate) {
-        this.id_temlate = id_temlate;
-    }
 }
-
-

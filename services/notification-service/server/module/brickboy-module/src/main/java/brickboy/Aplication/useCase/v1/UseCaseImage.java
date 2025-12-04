@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GetAndSaveImage {
+public class UseCaseImage {
     @Autowired
     private FileRepo fileRepo;
     @Autowired
@@ -19,7 +19,7 @@ public class GetAndSaveImage {
     @Autowired
     private ImageMapper imageMapper;
 
-    public GetAndSaveImage(FileManager fileManager) {
+    public UseCaseImage(FileManager fileManager) {
         this.fileManager = fileManager;
     }
 
