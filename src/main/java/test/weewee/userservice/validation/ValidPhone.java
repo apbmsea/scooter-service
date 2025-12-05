@@ -9,7 +9,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidPhone {
-    String message() default "Неверный формат телефона. Используйте международный формат: +79991234567";
+    String message() default "Неверный формат телефона. Только российские номера в формате +7XXXXXXXXXX";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

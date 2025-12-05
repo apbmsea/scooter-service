@@ -46,14 +46,14 @@ public class RequestMonitoringFilter implements org.springframework.cloud.gatewa
                 }
             }
 
-            // Определяем сервис по пути
             String service = determineService(path);
 
-            // Логируем запрос
+            String operationMessage = determineOperationMessage(method, path, service);
+
             monitoringService.logRequest(
                     method,
                     String.valueOf(statusValue),
-                    String.format("Request completed in %dms", duration),
+                    operationMessage,
                     service,
                     type
             );
@@ -75,6 +75,48 @@ public class RequestMonitoringFilter implements org.springframework.cloud.gatewa
             return "admin-service";
         }
         return "api-gateway";
+    }
+
+    private String determineOperationMessage(String method, String path, String service) {
+        // Для user-service
+        if ("user-service".equals(service)) {
+            if ("POST".equals(method)) {
+                if (path.equals("/auth/register")) {
+                    return "Создание пользователя";
+                } else if (path.equals("/auth/login")) {
+                    return "Вход в систему";
+                } else if (path.equals("/auth/logout")) {
+                    return "Выход из системы";
+                } else if (path.equals("/auth/refresh")) {
+                    return "Обновление токена";
+                } else if (path.equals("/auth/forgot-password")) {
+                    return "Сброс пароля";
+                }
+            } else if ("GET".equals(method)) {
+                if (path.equals("/users/me")) {
+                    return "Получение текущего пользователя";
+                } else if (path.equals("/users")) {
+                    return "Получение списка пользователей";
+                }
+            } else if ("PUT".equals(method)) {
+                if (path.equals("/users/me")) {
+                    return "Обновление пользователя";
+                }
+            } else if ("DELETE".equals(method)) {
+                if (path.startsWith("/users/") && path.length() > 7) {
+                    String rest = path.substring(7);
+                    if (rest.matches("^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$")) {
+                        return "Удаление пользователя по ID";
+                    } else if (rest.startsWith("by-email/")) {
+                        return "Удаление пользователя по email";
+                    } else if (rest.startsWith("by-phone/")) {
+                        return "Удаление пользователя по телефону";
+                    }
+                }
+            }
+        }
+        
+        return "Выполнение запроса";
     }
 
     @Override
