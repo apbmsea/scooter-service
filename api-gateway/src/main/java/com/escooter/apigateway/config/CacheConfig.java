@@ -20,23 +20,18 @@ public class CacheConfig {
 
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        // Базовая конфигурация кэша
         RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
                 .entryTtl(Duration.ofSeconds(30))
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
                 .disableCachingNullValues();
 
-        // Конфигурация для разных типов кэша
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
-        // Кэш для поиска самокатов - 30 секунд
         cacheConfigurations.put("scooters", defaultConfig.entryTtl(Duration.ofSeconds(30)));
 
-        // Кэш для статистики - 5 минут
         cacheConfigurations.put("stats", defaultConfig.entryTtl(Duration.ofMinutes(5)));
 
-        // Кэш для справочников - 1 час
         cacheConfigurations.put("dictionaries", defaultConfig.entryTtl(Duration.ofHours(1)));
 
         return RedisCacheManager.builder(connectionFactory)

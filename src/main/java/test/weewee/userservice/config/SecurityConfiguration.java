@@ -25,7 +25,7 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .cors(cors -> cors.disable()) // CORS обрабатывается на api-gateway
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/**").permitAll()
@@ -49,12 +49,18 @@ public class SecurityConfiguration {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(List.of(
-                "https://localhost:3000",
+    "https://localhost:3000",
                 "https://localhost:5173",
                 "https://10.4.3.37:3000",
                 "https://10.4.3.55:3000",
                 "https://10.4.3.84:3000",
-                "https://10.3.18.88:3000"
+                "https://10.3.18.88:3000",
+                "http://10.4.3.74:4173",
+                "http://10.4.3.74:5000",
+                "https://10.4.3.74:5000",
+                "https://10.4.3.74:4173",
+                "https://10.4.3.84:5000",
+                "http://10.4.3.84:5000"
 
         ));
 

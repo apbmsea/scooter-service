@@ -115,7 +115,8 @@ public class GatewayConfig {
                         )
                         .uri(userServiceUrl)
                 )
-                // Scooter Service Routes - исключаем composite endpoint
+                // Scooter 
+                // \]ervice Routes - исключаем composite endpoint
                 .route("scooter-service", r -> r
                         .path("/scooters/**")
                         .and()

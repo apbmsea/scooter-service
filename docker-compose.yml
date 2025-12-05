@@ -27,8 +27,24 @@ services:
       - SPRING_RABBITMQ_PORT=5672
       - SPRING_RABBITMQ_USERNAME=admin
       - SPRING_RABBITMQ_PASSWORD=admin123
+    volumes:
+      - ./src/main/resources/keystore.p12:/app/keystore.p12:ro
     depends_on:
       - postgres
+      - rabbitmq
+
+  api-gateway:
+    build: ./api-gateway
+    container_name: api-gateway
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      - ./src/main/resources/keystore.p12:/app/keystore.p12:ro
+    depends_on:
+      - user-service-app
+      - redis
       - rabbitmq
 
   zipkin:

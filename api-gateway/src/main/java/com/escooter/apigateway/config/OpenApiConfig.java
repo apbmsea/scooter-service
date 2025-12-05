@@ -17,7 +17,7 @@ public class OpenApiConfig {
         
         return new OpenAPI()
                 .info(new Info()
-                        .title("E-Scooter API Gateway")
+                        .title("Scoter-service API Gateway")
                         .version("1.0.0")
                         .description("Единая точка входа для всех клиентских приложений. Обеспечивает маршрутизацию, аутентификацию, кэширование и ограничение запросов."))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))

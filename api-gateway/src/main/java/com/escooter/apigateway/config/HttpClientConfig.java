@@ -15,10 +15,6 @@ import javax.net.ssl.SSLException;
 @Configuration
 public class HttpClientConfig {
 
-    /**
-     * Настройка HttpClient для работы с самоподписанными SSL сертификатами
-     * ВНИМАНИЕ: Это только для разработки! В продакшене используйте валидные сертификаты
-     */
     @Bean
     public HttpClientCustomizer httpClientCustomizer() {
         return httpClient -> {

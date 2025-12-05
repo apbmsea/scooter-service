@@ -19,7 +19,7 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("User Service API")
                         .version("1.0.0")
-                        .description("API для управления пользователями E-Scooter системы"))
+                        .description("API для управления пользователями Scooter системы"))
                 .addSecurityItem(new SecurityRequirement().addList(securitySchemeName))
                 .components(new Components()
                         .addSecuritySchemes(securitySchemeName, new SecurityScheme()

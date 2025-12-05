@@ -11,29 +11,14 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RequestDto {
 
-    /**
-     * HTTP метод запроса (GET, POST, PUT, DELETE и т.д.)
-     */
     private String method;
 
-    /**
-     * Статус: HTTP-код или краткое текстовое имя статуса.
-     */
     private String status;
 
-    /**
-     * Сообщение ошибки или описание результата.
-     */
     private String message;
 
-    /**
-     * Время запроса сервиса в ISO‑формате (например, 2025-12-01T12:34:56Z).
-     */
     private String time;
 
-    /**
-     * Название сервиса (user-service, scooter-service, rental-service и т.п.).
-     */
     private String service;
 
     /**
