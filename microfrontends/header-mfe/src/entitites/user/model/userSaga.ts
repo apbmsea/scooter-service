@@ -5,7 +5,7 @@ import { userFailure, userRequest, userSuccess } from './userSlice';
 function* userSaga() {
 	try {
 		const response = yield* call(getUser);
-		yield* put(userSuccess(response.user));
+		yield* put(userSuccess(response));
 	} catch (error: unknown) {
 		yield* put(userFailure());
 		console.log(error);
