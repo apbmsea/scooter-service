@@ -7,7 +7,7 @@ import {
 import { recovery } from '../../../entities/recovery/recovery.api';
 import type { RecoveryPayload } from '../../../entities/recovery/recovery.types';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { event, isHandledError, navigateTo } from '@scooter/shared';
+import { event, isHandledError, navigateTo } from 'scooter-shared';
 
 function* recoverySaga(action: PayloadAction<RecoveryPayload>) {
 	try {

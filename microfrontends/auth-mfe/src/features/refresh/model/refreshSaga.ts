@@ -1,7 +1,7 @@
 import { call, put, takeLatest, take } from 'typed-redux-saga';
 import { refreshFailure, refreshRequest, refreshSuccess } from './refreshSlice';
 import { refresh } from '@entities/refresh/refresh.api';
-import { event } from '@scooter/shared';
+import { event } from 'scooter-shared';
 import { eventChannel } from 'redux-saga';
 
 function* refreshSaga() {

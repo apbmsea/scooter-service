@@ -1,4 +1,4 @@
-import { $api } from '@scooter/shared';
+import { $api } from 'scooter-shared';
 import type { LoginPayload } from './login.types';
 
 export async function login(payload: LoginPayload) {

@@ -1,4 +1,4 @@
-import { $refresh } from "@scooter/shared";
+import { $refresh } from "scooter-shared";
 
 export async function refresh() {
     const response = await $refresh.post(`/auth/refresh`);

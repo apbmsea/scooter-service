@@ -1,7 +1,7 @@
 import { call, put, takeLatest, take } from 'typed-redux-saga';
 import { logoutFailure, logoutRequest, logoutSuccess } from './logoutSlice';
 import { logout } from '@entities/logout/logout.api';
-import { event, navigateTo } from '@scooter/shared';
+import { event, navigateTo } from 'scooter-shared';
 import { eventChannel } from 'redux-saga';
 
 function* logoutSaga() {

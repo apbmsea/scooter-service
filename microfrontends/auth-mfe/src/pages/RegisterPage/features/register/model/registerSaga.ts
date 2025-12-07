@@ -7,7 +7,7 @@ import {
 import { register } from '../../../entities/register/register.api';
 import type { RegisterPayload } from '../../../entities/register/register.types';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { event, isHandledError, navigateTo } from '@scooter/shared';
+import { event, isHandledError, navigateTo } from 'scooter-shared';
 
 function* registerSaga(action: PayloadAction<RegisterPayload>) {
 	try {

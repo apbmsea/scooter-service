@@ -1,4 +1,4 @@
-import { $api } from '@scooter/shared';
+import { $api } from 'scooter-shared';
 import type { RecoveryPayload } from './recovery.types';
 
 export async function recovery(payload: RecoveryPayload) {

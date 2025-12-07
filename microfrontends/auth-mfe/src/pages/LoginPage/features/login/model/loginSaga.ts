@@ -3,7 +3,7 @@ import { loginFailure, loginRequest, loginSuccess } from './loginSlice';
 import { login } from '../../../entities/login/login.api';
 import type { LoginPayload } from '../../../entities/login/login.types';
 import type { PayloadAction } from '@reduxjs/toolkit';
-import { event, isHandledError, navigateTo } from '@scooter/shared';
+import { event, isHandledError, navigateTo } from 'scooter-shared';
 
 function* loginSaga(action: PayloadAction<LoginPayload>) {
 	try {

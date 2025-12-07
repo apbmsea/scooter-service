@@ -1,4 +1,4 @@
-import { $api } from '@scooter/shared';
+import { $api } from 'scooter-shared';
 
 import type { RegisterPayload } from './register.types';
 
