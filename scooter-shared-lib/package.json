@@ -1,0 +1,29 @@
+{
+  "name": "scooter-shared",
+  "version": "0.1.0",
+  "description": "Shared utilities and types for scooter-service microfrontends",
+  "keywords": [
+    "microfrontends",
+    "shared",
+    "events",
+    "scooter-service"
+  ],
+  "license": "MIT",
+  "author": "",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "axios": "^1.13.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  },
+  "module": "dist/index.js"
+}
