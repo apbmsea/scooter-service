@@ -1,6 +1,6 @@
 import { type PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
-import { type User } from '@scooter/shared';
+import { type User } from 'scooter-shared';
 
 interface UserState {
 	user: User | null;

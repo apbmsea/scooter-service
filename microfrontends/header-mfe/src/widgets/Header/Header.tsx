@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../app/store/store';
 import { userRequest } from '../../entitites/user/model/userSlice';
-import { event, navigateTo, type User } from '@scooter/shared';
+import { event, navigateTo, type User } from 'scooter-shared';
 import './Header.scss';
 
 interface Link {
@@ -49,7 +49,7 @@ const Header = () => {
 	}, [dispatch]);
 
 	const links = useMemo(() => {
-		const role = user?.role ?? 'USER';
+		const role = (user?.role ?? 'USER') as User['role'];
 		return ROLE_LINKS[role];
 	}, [user?.role]);
 
