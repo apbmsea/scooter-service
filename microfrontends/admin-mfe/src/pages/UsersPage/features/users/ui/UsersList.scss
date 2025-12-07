@@ -1,0 +1,53 @@
+.users-list {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding-bottom: 20px;
+
+  &__table {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fff;
+  }
+
+  &__table-header {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr) 120px;
+    padding: 14px 16px;
+    background: #0077ff;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #fff;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+  }
+
+  &__body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}
+
+.update-button {
+  width: 100%;
+  cursor: pointer;
+  border: none;
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #fff;
+  color: #0077ff;
+
+  &:hover {
+    background: #e6e6e6;
+  }
+}
