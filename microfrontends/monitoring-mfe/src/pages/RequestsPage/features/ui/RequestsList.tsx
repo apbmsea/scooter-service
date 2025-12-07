@@ -10,6 +10,12 @@ const RequestsList = () => {
 
   useEffect(() => {
     dispatch(getRequestsRequest());
+
+    const interval = setInterval(() => {
+      dispatch(getRequestsRequest());
+    }, 5000);
+
+    return () => clearInterval(interval);
   }, [dispatch]);
 
   return (
@@ -18,9 +24,9 @@ const RequestsList = () => {
         <div className="requests-list__table-header">
           <div>Метод</div>
           <div>Статус</div>
+          <div>Сервис</div>
           <div>Сообщение</div>
           <div>Время</div>
-          <div>Сервис</div>
           <div>Тип</div>
         </div>
 

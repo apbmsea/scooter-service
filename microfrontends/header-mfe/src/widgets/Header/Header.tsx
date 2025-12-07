@@ -10,11 +10,7 @@ interface Link {
 	label: string;
 }
 
-const USER_LINKS: Link[] = [
-	{ href: '/home', label: 'Главная' },
-	{ href: '/auth', label: 'Карта' },
-	{ href: '/info', label: 'Информация' }
-];
+const USER_LINKS: Link[] = [{ href: '/home', label: 'Главная' }];
 
 const OPERATOR_LINKS: Link[] = [
 	{ href: '/link', label: 'link' },
@@ -24,8 +20,8 @@ const OPERATOR_LINKS: Link[] = [
 
 const ADMIN_LINKS: Link[] = [
 	{ href: '/admin-panel', label: 'Админ панель' },
-	{ href: '/statistics', label: 'Статистика' },
-	{ href: '/server-info', label: 'Состояние серверов' }
+	{ href: '/monitoring/requests', label: 'Мониторинг Запросов' },
+	{ href: '/statistics', label: 'Статистика' }
 ];
 
 const ROLE_LINKS: Record<User['role'], Link[]> = {
