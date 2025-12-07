@@ -1,4 +1,4 @@
-import { $api, type User } from "@scooter/shared";
+import { $api, type User } from "scooter-shared";
 
 export async function getIUser() {
   const response = await $api.get(`/users/me`);

@@ -9,7 +9,7 @@ import {
   updateIUserSuccess,
 } from "./userSlice";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { type User, isHandledError, event } from "@scooter/shared";
+import { type User, isHandledError, event } from "scooter-shared";
 
 function* getIUserSaga() {
   try {

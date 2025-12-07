@@ -7,7 +7,7 @@ import {
   updateIUserRequest,
 } from "../model/userSlice";
 import { useAppDispatch, useAppSelector } from "@shared/hooks/store.hooks";
-import { event } from "@scooter/shared";
+import { event } from "scooter-shared";
 import "./UserForm.scss";
 
 const initialFormState = {

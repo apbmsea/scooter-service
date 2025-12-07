@@ -1,6 +1,6 @@
 import { UserForm } from "../features/user";
 import "./UserPage.scss";
-import { event } from "@scooter/shared";
+import { event } from "scooter-shared";
 
 const UserPage = () => {
   return (
