@@ -12,7 +12,7 @@ module.exports = {
 		//auth-mfe
 		{
 			path: '/auth/register',
-			allowedRoles: ['unauthorized'],
+			allowedRoles: ['unauthorized', 'user', 'operator', 'admin'],
 			meta: {
 				title: 'Регистрация'
 			},
@@ -20,7 +20,7 @@ module.exports = {
 		},
 		{
 			path: '/auth/login',
-			allowedRoles: ['unauthorized'],
+			allowedRoles: ['unauthorized', 'user', 'operator', 'admin'],
 			meta: {
 				title: 'Вход'
 			},
@@ -28,7 +28,7 @@ module.exports = {
 		},
 		{
 			path: '/auth/forgot-password',
-			allowedRoles: ['admin'],
+			allowedRoles: ['unauthorized', 'user', 'operator', 'admin'],
 			meta: {
 				title: 'Восстановление пароля'
 			},
@@ -43,6 +43,26 @@ module.exports = {
 				title: 'Настройки'
 			},
 			microfrontends: ['header', 'user']
+		},
+
+		//admin-mfe
+		{
+			path: '/admin-panel',
+			allowedRoles: ['unauthorized', 'user', 'operator', 'admin'],
+			meta: {
+				title: 'Админ Панель - Пользователи'
+			},
+			microfrontends: ['header', 'admin']
+		},
+
+		//monitoring-mfe
+		{
+			path: '/monitoring/requests',
+			allowedRoles: ['unauthorized', 'user', 'operator', 'admin'],
+			meta: {
+				title: 'Мониторинг - Запросы'
+			},
+			microfrontends: ['header', 'monitoring']
 		},
 
 		//statica
