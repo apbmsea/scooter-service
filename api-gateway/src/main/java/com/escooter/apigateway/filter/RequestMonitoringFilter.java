@@ -95,6 +95,8 @@ public class RequestMonitoringFilter implements org.springframework.cloud.gatewa
             } else if ("GET".equals(method)) {
                 if (path.equals("/users/me")) {
                     return "Получение текущего пользователя";
+                } else if (path.equals("/users/me/accesses")) {
+                    return "Получение доступа пользователя";
                 } else if (path.equals("/users")) {
                     return "Получение списка пользователей";
                 }

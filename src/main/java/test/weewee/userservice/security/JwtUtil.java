@@ -29,21 +29,19 @@ public class JwtUtil {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String generateAccessToken(UUID userId, String email, String role) {
+    public String generateAccessToken(UUID userId, String role) {
         log.debug("Generating access token for user: {} with role: {}", userId, role);
 
         String token = Jwts.builder()
                 .setSubject(userId.toString())
-                .claim("email", email)
                 .claim("role", role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSigningKey())
                 .compact();
 
-        // ДЕТАЛЬНЫЙ ЛОГ
         log.debug("=== ACCESS TOKEN GENERATED ===");
-        log.debug("For user: {} ({}) with role: {}", email, userId, role);
+        log.debug("For user ID: {} with role: {}", userId, role);
         log.debug("Token: {}...", token.substring(0, Math.min(50, token.length())));
         log.debug("Length: {}", token.length());
         log.debug("Expires in: {} ms", expiration);

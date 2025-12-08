@@ -11,14 +11,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.servlet.HandlerExceptionResolver;
+import test.weewee.userservice.model.User;
+import test.weewee.userservice.repository.UserRepository;
 import test.weewee.userservice.security.JwtUtil;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -27,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final HandlerExceptionResolver handlerExceptionResolver;
     private final JwtUtil jwtUtil;
-    private final UserDetailsService userDetailsService;
+    private final UserRepository userRepository;
 
     @Override
     protected void doFilterInternal(
@@ -39,6 +42,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Пропускаем JWT проверку для эндпоинтов аутентификации (кроме logout)
         String path = request.getServletPath();
         if (path.startsWith("/auth/") && !path.equals("/auth/logout")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        // Пропускаем /users/me/accesses - он использует refresh токен из кук
+        if (path.equals("/users/me/accesses")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -79,23 +88,35 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return;
             }
 
-            String userEmail = jwtUtil.getEmailFromToken(jwt);
+            UUID userId = jwtUtil.getUserIdFromToken(jwt);
 
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                logger.debug("Loading user details for email: {}", userEmail);
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+            if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                logger.debug("Loading user details for userId: {}", userId);
+                User user = userRepository.findById(userId)
+                        .orElse(null);
 
-                logger.info("JWT token validated successfully for user: {}", userEmail);
+                if (user != null) {
+                    UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
+                            .username(user.getEmail())
+                            .password(user.getPassword())
+                            .authorities(Collections.singletonList(
+                                    new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_" + user.getRole().name())))
+                            .build();
 
-                UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                        userDetails,
-                        null,
-                        userDetails.getAuthorities()
-                );
+                    logger.info("JWT token validated successfully for user: {} (ID: {})", user.getEmail(), userId);
 
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-                logger.debug("Authentication set in SecurityContext for user: {}", userEmail);
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                            userDetails,
+                            null,
+                            userDetails.getAuthorities()
+                    );
+
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    logger.debug("Authentication set in SecurityContext for user: {}", user.getEmail());
+                } else {
+                    logger.warn("User not found for userId: {}", userId);
+                }
             }
 
             filterChain.doFilter(request, response);

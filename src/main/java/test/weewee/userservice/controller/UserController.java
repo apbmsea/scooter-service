@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import test.weewee.userservice.dto.ErrorResponse;
 import test.weewee.userservice.dto.UpdateUserRequest;
+import test.weewee.userservice.dto.UserAccessResponse;
 import test.weewee.userservice.dto.UserResponse;
 import test.weewee.userservice.exception.AuthException;
 import test.weewee.userservice.exception.UserNotFoundException;
@@ -51,6 +52,51 @@ public class UserController {
             return ResponseEntity.ok(userResponse);
         } catch (Exception e) {
             log.warn("User not found: {}", userEmail);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    }
+
+    @GetMapping("/me/accesses")
+    public ResponseEntity<UserAccessResponse> getUserAccesses(HttpServletRequest request) {
+        log.debug("GET /users/me/accesses - get user accesses");
+
+        try {
+            String refreshToken = getRefreshTokenFromCookies(request);
+            if (refreshToken == null) {
+                log.warn("No refresh token in cookies");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            if (!jwtUtil.validateToken(refreshToken)) {
+                log.warn("Invalid refresh token");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            UUID userId = jwtUtil.getUserIdFromToken(refreshToken);
+            if (userId == null) {
+                log.warn("Failed to extract user ID from refresh token");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+
+            User user = userService.findById(userId)
+                    .orElseThrow(() -> {
+                        log.warn("User not found with ID: {}", userId);
+                        return new UserNotFoundException("Пользователь не найден");
+                    });
+
+            UserAccessResponse response = UserAccessResponse.builder()
+                    .id(user.getId().toString())
+                    .role(user.getRole().name())
+                    .build();
+
+            log.debug("User accesses retrieved for user ID: {}", userId);
+            return ResponseEntity.ok(response);
+
+        } catch (UserNotFoundException e) {
+            log.warn("User not found: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } catch (Exception e) {
+            log.error("Failed to get user accesses: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
@@ -225,7 +271,13 @@ public class UserController {
             String token = authHeader.substring(7);
             token = cleanToken(token);
             if (jwtUtil.validateToken(token)) {
-                return jwtUtil.getEmailFromToken(token);
+                UUID userId = jwtUtil.getUserIdFromToken(token);
+                if (userId != null) {
+                    // Получаем email из БД по userId
+                    return userService.findById(userId)
+                            .map(User::getEmail)
+                            .orElse(null);
+                }
             }
         }
         return null;
@@ -243,6 +295,26 @@ public class UserController {
         cleaned = cleaned.replaceAll("^[^A-Za-z0-9]+|[^A-Za-z0-9]+$", "");
 
         return cleaned;
+    }
+
+    private String getRefreshTokenFromCookies(HttpServletRequest request) {
+        jakarta.servlet.http.Cookie[] cookies = request.getCookies();
+        if (cookies == null) {
+            log.debug("No cookies in request");
+            return null;
+        }
+
+        log.debug("Found {} cookies in request", cookies.length);
+        for (jakarta.servlet.http.Cookie cookie : cookies) {
+            log.debug("Cookie: {} = {}...", cookie.getName(),
+                    cookie.getValue() != null && cookie.getValue().length() > 10 ?
+                            cookie.getValue().substring(0, 10) + "..." : cookie.getValue());
+            if ("refreshToken".equals(cookie.getName())) {
+                return cookie.getValue();
+            }
+        }
+        log.debug("Refresh token cookie not found");
+        return null;
     }
 
     private UserResponse mapToUserResponse(User user) {

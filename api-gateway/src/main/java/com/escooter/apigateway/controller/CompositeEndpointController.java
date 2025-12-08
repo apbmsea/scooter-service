@@ -52,7 +52,6 @@ public class CompositeEndpointController {
                     return Mono.just(new HashMap<String, Object>());
                 });
 
-        // Шаг 2: Получаем активную аренду (если самокат в аренде)
         Mono<Map<String, Object>> rentalMono = scooterServiceClient
                 .get()
                 .uri("/scooters/{id}", id)
@@ -78,7 +77,6 @@ public class CompositeEndpointController {
                 })
                 .onErrorResume(e -> Mono.just(new HashMap<String, Object>()));
 
-        // Композиция результатов
         return Mono.zip(scooterMono, rentalMono)
                 .map(tuple -> {
                     Map<String, Object> scooter = tuple.getT1();

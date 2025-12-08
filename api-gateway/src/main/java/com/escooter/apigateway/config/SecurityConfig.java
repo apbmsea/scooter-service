@@ -45,7 +45,6 @@ public class SecurityConfig {
                 "https://10.4.3.74:4173",
                 "https://10.4.3.84:5000",
                 "http://10.4.3.84:5000"
-                // Добавьте IP фронтенда, если его нет в списке!
         ));
 
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));

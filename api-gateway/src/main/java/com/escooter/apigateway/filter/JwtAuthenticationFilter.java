@@ -43,7 +43,7 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             String authHeader = request.getHeaders().getFirst("Authorization");
             
             if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-                return onError(exchange, "Missing or invalid Authorization header", HttpStatus.UNAUTHORIZED);
+                return onError(exchange, "Отсутствует или неверный заголовок Authorization", HttpStatus.UNAUTHORIZED);
             }
 
             try {
@@ -53,14 +53,13 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                 // Добавляем информацию о пользователе в заголовки для передачи в микросервисы
                 ServerHttpRequest modifiedRequest = request.mutate()
                         .header("X-User-Id", claims.getSubject())
-                        .header("X-User-Email", claims.get("email", String.class))
                         .header("X-User-Role", claims.get("role", String.class))
                         .build();
 
                 return chain.filter(exchange.mutate().request(modifiedRequest).build());
             } catch (Exception e) {
                 log.error("JWT validation failed: {}", e.getMessage());
-                return onError(exchange, "Invalid token", HttpStatus.UNAUTHORIZED);
+                return onError(exchange, "Недействительный токен", HttpStatus.UNAUTHORIZED);
             }
         };
     }
@@ -68,7 +67,8 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     private boolean isPublicEndpoint(String path) {
         return path.startsWith("/auth/") || 
                path.startsWith("/actuator/") ||
-               path.startsWith("/monitoring/");
+               path.startsWith("/monitoring/") ||
+               path.equals("/users/me/accesses");
     }
 
     private Claims validateToken(String token) {
@@ -83,10 +83,11 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     private Mono<Void> onError(ServerWebExchange exchange, String message, HttpStatus status) {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(status);
-        response.getHeaders().add("Content-Type", "application/json");
+        response.getHeaders().add("Content-Type", "application/json; charset=UTF-8");
         
-        String body = String.format("{\"error\":\"%s\",\"message\":\"%s\"}", status.getReasonPhrase(), message);
-        return response.writeWith(Mono.just(response.bufferFactory().wrap(body.getBytes())));
+        String errorText = "Неавторизован";
+        String body = String.format("{\"error\":\"%s\",\"message\":\"%s\"}", errorText, message);
+        return response.writeWith(Mono.just(response.bufferFactory().wrap(body.getBytes(java.nio.charset.StandardCharsets.UTF_8))));
     }
 
     public static class Config {

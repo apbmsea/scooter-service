@@ -14,10 +14,12 @@ import test.weewee.userservice.model.User;
 import test.weewee.userservice.security.JwtUtil;
 import test.weewee.userservice.service.AuthenticationService;
 import test.weewee.userservice.service.CookieService;
+import test.weewee.userservice.service.UserService;
 
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -28,6 +30,7 @@ public class AuthenticationController {
     private final AuthenticationService authenticationService;
     private final CookieService cookieService;
     private final JwtUtil jwtUtil;
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest request) {
@@ -207,7 +210,13 @@ public class AuthenticationController {
             String token = authHeader.substring(7);
             token = cleanToken(token);
             if (jwtUtil.validateToken(token)) {
-                return jwtUtil.getEmailFromToken(token);
+                UUID userId = jwtUtil.getUserIdFromToken(token);
+                if (userId != null) {
+                    // Получаем email из БД по userId
+                    return userService.findById(userId)
+                            .map(User::getEmail)
+                            .orElse(null);
+                }
             }
         }
         return null;

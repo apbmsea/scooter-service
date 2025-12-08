@@ -20,13 +20,7 @@ public class RequestDto {
     private String time;
 
     private String service;
-
-    /**
-     * Тип результата.
-     * SUCCESS – запрос прошёл успешно;
-     * WARNING – запрос не прошёл из-за некорректных данных пользователя, валидации и т.п.;
-     * ERROR – внутренняя ошибка сервиса (5xx) или недоступность.
-     */
+    
     private Type type;
 
     public enum Type {
