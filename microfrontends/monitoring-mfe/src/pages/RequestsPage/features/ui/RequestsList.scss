@@ -7,6 +7,10 @@
   overflow: hidden;
   padding-bottom: 20px;
 
+  @media (max-width: 768px) {
+    padding-bottom: 12px;
+  }
+
   &__table {
     flex: 1;
     min-height: 0;
@@ -16,6 +20,10 @@
     border-radius: 10px;
     overflow: hidden;
     background: #fff;
+
+    @media (max-width: 768px) {
+      border-radius: 8px;
+    }
   }
 
   &__table-header {
@@ -29,11 +37,18 @@
     position: sticky;
     top: 0;
     z-index: 2;
+    min-width: 800px;
+
+    @media (max-width: 768px) {
+      padding: 10px 12px;
+      font-size: 0.875rem;
+    }
   }
 
   &__body {
     flex: 1;
     min-height: 0;
     overflow-y: auto;
+    overflow-x: auto;
   }
 }

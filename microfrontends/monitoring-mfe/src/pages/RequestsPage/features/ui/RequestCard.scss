@@ -9,6 +9,12 @@
   background: black;
   color: white;
   transition: background 0.2s ease;
+  min-width: 800px;
+
+  @media (max-width: 768px) {
+    padding: 10px 12px;
+    font-size: 1rem;
+  }
 
   &:hover {
     background: #272727;
@@ -32,4 +38,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
+  @media (max-width: 768px) {
+    padding: 3px 4px;
+  }
 }
