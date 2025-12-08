@@ -8,7 +8,7 @@ const Home = () => {
     <div className="home">
       <section className="home__tiles">
         <div className="tile tile--lg tile--white tile--no-border">
-          <span className="tile__welcome-text">Добро пожаловать!</span>
+          <span className="tile__welcome-text">Добро <br /> пожаловать!</span>
           <div className="tile__content"></div>
         </div>
 
