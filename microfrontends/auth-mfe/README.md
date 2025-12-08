@@ -1,73 +1,122 @@
-# React + TypeScript + Vite
+# Auth MFE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Микрофронтенд аутентификации для scooter-service.
 
-Currently, two official plugins are available:
+## Описание
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Модуль аутентификации с формами входа, регистрации и восстановления пароля.
 
-## React Compiler
+## Функционал
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Вход в систему (email/телефон + пароль)
+- Регистрация нового пользователя
+- Восстановление пароля
+- Автоматическое обновление токена (refresh)
+- Выход из системы
+- Валидация форм с отображением ошибок
+- Маска для ввода телефона
+- Автоочистка ошибок при переходе между страницами
 
-## Expanding the ESLint configuration
+## Технологии
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19
+- TypeScript
+- Redux Toolkit
+- Typed Redux Saga
+- Consta UI Kit
+- Maskito (маски ввода)
+- Vite
+- scooter-shared
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## Установка
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+```
+Локальная разработка mfe без инициализации проекта
+```bash
+npm run dev
+```
+Инициализация mfe для prod и итнеграции в проекта
+```bash
+npm run build
+```
+```bash
+npx serve dist -p 3000 -C
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Структура
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── app/
+│   ├── store/           # Redux store, rootReducer, rootSaga
+│   ├── App.tsx
+│   └── main.tsx
+├── entities/
+│   ├── logout/          # API выхода
+│   └── refresh/         # API обновления токена
+├── features/
+│   ├── logout/          # Логика выхода
+│   └── refresh/         # Логика refresh токена
+├── pages/
+│   ├── LoginPage/       # Страница входа
+│   │   ├── entities/    # Типы и API
+│   │   ├── features/    # Форма входа
+│   │   └── ui/          # Компонент страницы
+│   ├── RegisterPage/    # Страница регистрации
+│   └── RecoveryPage/    # Страница восстановления
+└── shared/
+    ├── hooks/           # Redux hooks
+    ├── types/           # Общие типы
+    └── utils/           # Утилиты (маски)
+```
+
+## Страницы
+
+### LoginPage
+- Email или телефон
+- Пароль
+- Ссылки на регистрацию и восстановление
+
+### RegisterPage
+- Имя
+- Фамилия
+- Email
+- Телефон (с маской)
+- Пароль
+- Подтверждение пароля
+
+### RecoveryPage
+- Email для восстановления пароля
+
+## Redux Store
+
+### Slices
+- `login` - состояние формы входа
+- `register` - состояние формы регистрации
+- `recovery` - состояние формы восстановления
+- `logout` - состояние выхода
+- `refresh` - состояние обновления токена
+
+### Sagas
+- `loginSaga` - обработка входа
+- `registerSaga` - обработка регистрации
+- `recoverySaga` - обработка восстановления
+- `logoutSaga` - обработка выхода
+- `refreshSaga` - обработка refresh токена
+
+## События
+
+Использует события из scooter-shared:
+- `logout` - при выходе пользователя
+- `refresh` - при обновлении токена
+- `user_update` - при изменении данных пользователя
+
+## API Endpoints
+
+- `POST /auth/login` - вход
+- `POST /auth/register` - регистрация
+- `POST /auth/recovery` - восстановление пароля
+- `POST /auth/logout` - выход
+- `POST /auth/refresh` - обновление токена
