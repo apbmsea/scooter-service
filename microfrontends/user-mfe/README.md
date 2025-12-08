@@ -1,73 +1,89 @@
-# React + TypeScript + Vite
+# User MFE
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Микрофронтенд профиля пользователя для scooter-service.
 
-Currently, two official plugins are available:
+## Описание
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Страница настроек пользователя с формой редактирования профиля и функцией выхода из системы.
 
-## React Compiler
+## Функционал
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Просмотр и редактирование данных профиля
+- Изменение личной информации (имя, фамилия, email, телефон)
+- Выход из системы
+- Адаптивный дизайн для всех устройств
 
-## Expanding the ESLint configuration
+## Технологии
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- React 19
+- TypeScript
+- Redux Toolkit
+- Typed Redux Saga
+- Consta UI Kit
+- SCSS
+- Vite
+- scooter-shared
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+```
+Локальная разработка mfe без инициализации проекта
+```bash
+npm run dev
+```
+Инициализация mfe для prod и итнеграции в проекта
+```bash
+npm run build
+```
+```bash
+npx serve dist -p 3000 -C
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Структура
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+src/
+├── app/
+│   ├── store/           # Redux store
+│   ├── App.tsx
+│   └── main.tsx
+├── pages/
+│   └── UserPage/
+│       ├── entities/    # Типы данных
+│       ├── features/    # Форма пользователя
+│       │   └── user/
+│       │       ├── model/   # Redux slice и saga
+│       │       └── ui/      # Компоненты формы
+│       └── ui/          # Компонент страницы
+└── shared/
+    ├── hooks/           # Redux hooks
+    └── types/           # Общие типы
+```
+
+## Компоненты
+
+### UserPage
+Основная страница с:
+- Заголовком "Настройки"
+- Боковой навигацией
+- Формой редактирования профиля
+- Кнопкой выхода
+
+### UserForm
+Форма с полями:
+- Имя
+- Фамилия
+- Email
+- Телефон
+- Роль (только для чтения)
+
+## События
+
+Использует события из scooter-shared:
+- `logout` - при выходе пользователя
+- `user_update` - при обновлении данных пользователя
+
+## API Endpoints
+
+- `GET /users/me` - получение данных пользователя
+- `PUT /users/me` - обновление данных пользователя

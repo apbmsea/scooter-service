@@ -1,8 +1,17 @@
+import { useAppDispatch } from "@shared/hooks/store.hooks";
 import { UserForm } from "../features/user";
 import "./UserPage.scss";
 import { event } from "scooter-shared";
+import { useEffect } from "react";
+import { updateIUserFailure } from "../features/user/model/userSlice";
+
 
 const UserPage = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(updateIUserFailure({}));
+  }, [dispatch]);
   return (
     <main className="user-page">
       <div className="settings">
