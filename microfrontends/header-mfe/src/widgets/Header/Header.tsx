@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import type { RootState } from '../../app/store/store';
 import { userRequest } from '../../entitites/user/model/userSlice';
@@ -10,7 +10,11 @@ interface Link {
 	label: string;
 }
 
-const USER_LINKS: Link[] = [{ href: '/home', label: 'Главная' }];
+const USER_LINKS: Link[] = [
+	{ href: '/admin-panel', label: 'Админ панель' },
+	{ href: '/monitoring/requests', label: 'Мониторинг Запросов' },
+	{ href: '/statistics', label: 'Статистика' }
+];
 
 const OPERATOR_LINKS: Link[] = [
 	{ href: '/link', label: 'link' },
@@ -33,6 +37,7 @@ const ROLE_LINKS: Record<User['role'], Link[]> = {
 const Header = () => {
 	const dispatch = useDispatch();
 	const user = useSelector((state: RootState) => state.user);
+	const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 	useEffect(() => {
 		dispatch(userRequest());
@@ -44,16 +49,41 @@ const Header = () => {
 		return unsubscribe;
 	}, [dispatch]);
 
+	useEffect(() => {
+		const handleResize = () => {
+			if (window.innerWidth > 1024) {
+				setIsMenuOpen(false);
+			}
+		};
+
+		window.addEventListener('resize', handleResize);
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
 	const links = useMemo(() => {
 		const role = (user?.role ?? 'USER') as User['role'];
 		return ROLE_LINKS[role];
 	}, [user?.role]);
 
+	const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
 	return (
-		<header className='header'>
+		<header
+			className={`header ${isMenuOpen ? 'header-open' : ''}`}
+		>
 			<a className='header__logo' href='/home'>
 				Самокат
 			</a>
+
+			<button
+				className='header__burger'
+				onClick={toggleMenu}
+				aria-label='Меню'
+			>
+				<span />
+				<span />
+				<span />
+			</button>
 
 			<nav className='header__navbar'>
 				{links.map(link => (
@@ -61,6 +91,7 @@ const Header = () => {
 						key={link.href}
 						href={link.href}
 						className='header__navbar-link'
+						onClick={() => setIsMenuOpen(false)}
 					>
 						{link.label}
 					</a>
