@@ -16,10 +16,9 @@ public class MessageConsumer {
     private final StatisticsRepository repository;
     private final ObjectMapper objectMapper;
     
-    @RabbitListener(queues = "rental.events")
-    public void handleRentalEvent(String message) {
+    @RabbitListener(queues = "rental.events", containerFactory = "rabbitListenerContainerFactory")
+    public void handleRentalEvent(RentalEvent event) {
         try {
-            RentalEvent event = objectMapper.readValue(message, RentalEvent.class);
             repository.saveRentalEvent(event);
             log.info("Processed rental event: {}", event.getRentalId());
         } catch (Exception e) {
@@ -27,10 +26,9 @@ public class MessageConsumer {
         }
     }
     
-    @RabbitListener(queues = "payment.events")
-    public void handlePaymentEvent(String message) {
+    @RabbitListener(queues = "payment.events", containerFactory = "rabbitListenerContainerFactory")
+    public void handlePaymentEvent(PaymentEvent event) {
         try {
-            PaymentEvent event = objectMapper.readValue(message, PaymentEvent.class);
             repository.savePaymentEvent(event);
             log.info("Processed payment event: {}", event.getPaymentId());
         } catch (Exception e) {
@@ -38,10 +36,9 @@ public class MessageConsumer {
         }
     }
     
-    @RabbitListener(queues = "user.events")
-    public void handleUserEvent(String message) {
+    @RabbitListener(queues = "user.events", containerFactory = "rabbitListenerContainerFactory")
+    public void handleUserEvent(UserEvent event) {
         try {
-            UserEvent event = objectMapper.readValue(message, UserEvent.class);
             repository.saveUserEvent(event);
             log.info("Processed user event: {}", event.getUserId());
         } catch (Exception e) {

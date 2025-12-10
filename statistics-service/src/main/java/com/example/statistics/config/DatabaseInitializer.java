@@ -1,3 +1,4 @@
+/*
 package com.example.statistics.config;
 
 import lombok.RequiredArgsConstructor;
@@ -11,7 +12,7 @@ import javax.sql.DataSource;
 @Component
 @RequiredArgsConstructor
 public class DatabaseInitializer implements CommandLineRunner {
-    
+
     private final DataSource dataSource;
     
     @Override
@@ -86,3 +87,4 @@ public class DatabaseInitializer implements CommandLineRunner {
         log.info("ClickHouse tables initialized successfully");
     }
 }
+*/

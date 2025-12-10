@@ -9,10 +9,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -27,7 +31,6 @@ public class StatisticsRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
     
-    // Внутренние классы для репозитория
     public static class TimeSeriesPoint {
         private String timestamp;
         private Double value;
@@ -69,86 +72,107 @@ public class StatisticsRepository {
         public Double getAvgRevenue() { return avgRevenue; }
         public void setAvgRevenue(Double avgRevenue) { this.avgRevenue = avgRevenue; }
     }
-    
-    // Сохранение событий аренды
+
+
     public void saveRentalEvent(RentalEvent event) {
         try {
-            String sql = """
-                INSERT INTO rental_events 
-                (timestamp, rental_id, user_id, scooter_id, event_type, location, battery_level, duration_seconds, revenue, city)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            """;
-            
+            String sql = "INSERT INTO rental_events " +
+                    "(timestamp, rental_id, user_id, scooter_id, event_type, " +
+                    "battery_level, duration_seconds, revenue, city, lat, lon) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    
             jdbcTemplate.update(sql,
-                event.getTimestamp(),
+                event.getTimestamp() != null
+                    ? java.sql.Timestamp.valueOf(event.getTimestamp().withNano(0))
+                    : java.sql.Timestamp.valueOf(LocalDateTime.now().withNano(0)),
                 event.getRentalId(),
                 event.getUserId(),
                 event.getScooterId(),
-                event.getEventType().name().toLowerCase(),
-                event.getLocation() != null ? 
-                    new Object[]{event.getLocation().getLon(), event.getLocation().getLat()} : null,
-                event.getBatteryLevel(),
-                event.getDurationSeconds(),
-                event.getRevenue(),
-                event.getCity()
+                event.getEventType() != null ? 
+                    event.getEventType().name().toLowerCase() : "started", // Enum значение
+                event.getBatteryLevel() != null ? event.getBatteryLevel() : 0,
+                event.getDurationSeconds() != null ? event.getDurationSeconds() : 0L,
+                event.getRevenue() != null ? event.getRevenue() : BigDecimal.ZERO,
+                event.getCity() != null ? event.getCity() : "",
+                event.getLocation() != null ? event.getLocation().getLat() : 0.0,
+                event.getLocation() != null ? event.getLocation().getLon() : 0.0
             );
-            log.debug("Saved rental event: {}", event.getRentalId());
+            
+            log.info("✅ Saved rental event: {}", event.getRentalId());
+            
         } catch (Exception e) {
-            log.error("Error saving rental event {}: {}", event.getRentalId(), e.getMessage());
-            throw e;
+            log.error("❌ Error saving rental event {}: {}", event.getRentalId(), e.getMessage(), e);
+            throw new RuntimeException("Error saving rental event", e);
         }
     }
-    
-    // Сохранение платежных событий
+
     public void savePaymentEvent(PaymentEvent event) {
         try {
-            String sql = """
-                INSERT INTO payment_events 
-                (timestamp, payment_id, rental_id, user_id, amount, currency, status, payment_method)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            """;
+            String sql = "INSERT INTO payment_events " +
+                    "(timestamp, payment_id, rental_id, user_id, amount, currency, status, payment_method) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    
+            String statusValue;
+            if (event.getStatus() == null) {
+                statusValue = "pending";
+            } else {
+                switch (event.getStatus()) {
+                    case SUCCEEDED:
+                        statusValue = "succeeded"; 
+                        break;
+                    case FAILED:
+                        statusValue = "failed";    
+                        break;
+                    case PENDING:
+                        statusValue = "pending";   
+                        break;
+                    default:
+                        statusValue = "pending";
+                }
+            }
             
             jdbcTemplate.update(sql,
-                event.getTimestamp(),event.getPaymentId(),
+                event.getTimestamp() != null
+                    ? java.sql.Timestamp.valueOf(event.getTimestamp().withNano(0))
+                    : java.sql.Timestamp.valueOf(LocalDateTime.now().withNano(0)),
+                event.getPaymentId(),
                 event.getRentalId(),
                 event.getUserId(),
-                event.getAmount(),
-                event.getCurrency(),
-                event.getStatus().name().toLowerCase(),
-                event.getPaymentMethod()
+                event.getAmount() != null ? event.getAmount() : BigDecimal.ZERO,
+                event.getCurrency() != null ? event.getCurrency() : "USD",
+                statusValue, 
+                event.getPaymentMethod() != null ? event.getPaymentMethod() : ""
             );
-            log.debug("Saved payment event: {}", event.getPaymentId());
+            
+            log.info("✅ Saved payment event: {}", event.getPaymentId());
+            
         } catch (Exception e) {
-            log.error("Error saving payment event {}: {}", event.getPaymentId(), e.getMessage());
-            throw e;
+            log.error("❌ Error saving payment event {}: {}", event.getPaymentId(), e.getMessage(), e);
+            throw new RuntimeException("Error saving payment event", e);
         }
     }
-    
-    // Сохранение пользовательских событий
+
     public void saveUserEvent(UserEvent event) {
         try {
-            String sql = """
-                INSERT INTO user_events 
-                (timestamp, user_id, event_type, email, city, age)
-                VALUES (?, ?, ?, ?, ?, ?)
-            """;
-            
+            String sql = "INSERT INTO user_events " +
+                    "(timestamp, user_id, event_type, email, city, age) VALUES (?, ?, ?, ?, ?, ?)";
+
             jdbcTemplate.update(sql,
-                event.getTimestamp(),
-                event.getUserId(),
-                event.getEventType(),
-                event.getEmail(),
-                event.getCity(),
-                event.getAge() != null ? event.getAge() : 0
+                    event.getTimestamp() != null
+                            ? java.sql.Timestamp.valueOf(event.getTimestamp().withNano(0))
+                            : java.sql.Timestamp.valueOf(LocalDateTime.now().withNano(0)),
+                    event.getUserId(),
+                    event.getEventType() != null ? event.getEventType() : "",
+                    event.getEmail() != null ? event.getEmail() : "",
+                    event.getCity() != null ? event.getCity() : "",
+                    event.getAge() != null ? event.getAge() : 0
             );
-            log.debug("Saved user event: {}", event.getUserId());
         } catch (Exception e) {
-            log.error("Error saving user event {}: {}", event.getUserId(), e.getMessage());
-            throw e;
+            e.printStackTrace();
+            throw new RuntimeException("Error saving user event " + event.getUserId(), e);
         }
     }
-    
-    // Статистика по поездкам за период
+
     public List<TimeSeriesPoint> getTripsStatistics(LocalDateTime start, LocalDateTime end, String aggregation) {
         try {
             String timeFormat = "hourly".equals(aggregation) ? "toStartOfHour(timestamp)" : "toDate(timestamp)";
@@ -178,7 +202,6 @@ public class StatisticsRepository {
         }
     }
     
-    // Статистика по выручке за период
     public List<TimeSeriesPoint> getRevenueStatistics(LocalDateTime start, LocalDateTime end, String aggregation) {
         try {
             String timeFormat = "hourly".equals(aggregation) ? "toStartOfHour(timestamp)" : "toDate(timestamp)";
@@ -189,7 +212,7 @@ public class StatisticsRepository {
                     sum(revenue) as total_revenue
                 FROM rental_events 
                 WHERE timestamp BETWEEN ? AND ? 
-                    AND event_type = 'ended'
+                    AND event_type = 'ended'   -- Важно: 'ended' (строчные)
                 GROUP BY time_point
                 ORDER BY time_point
             """, timeFormat);
@@ -204,22 +227,22 @@ public class StatisticsRepository {
                 }
             }, start, end);
         } catch (Exception e) {
-            log.error("Error getting revenue statistics: {}", e.getMessage());
+            log.error("Error getting revenue statistics: {}", e.getMessage(), e);
             throw e;
         }
     }
     
-    // Популярные точки аренды
     public List<Hotspot> getHotspots(LocalDateTime start, LocalDateTime end, int limit) {
         try {
             String sql = """
                 SELECT 
-                    round(location.1, 3) as lon,round(location.2, 3) as lat,
+                    round(lon, 3) as lon,        -- Изменили с location.1 на lon
+                    round(lat, 3) as lat,        -- Изменили с location.2 на lat
                     count(*) as rental_count,
                     avg(revenue) as avg_revenue
                 FROM rental_events
                 WHERE timestamp BETWEEN ? AND ? 
-                    AND event_type = 'started'
+                    AND event_type = 'started'   -- Важно: 'started' (строчные)
                 GROUP BY lon, lat
                 HAVING rental_count > 5
                 ORDER BY rental_count DESC
@@ -238,30 +261,28 @@ public class StatisticsRepository {
                 }
             }, start, end, limit);
         } catch (Exception e) {
-            log.error("Error getting hotspots: {}", e.getMessage());
+            log.error("Error getting hotspots: {}", e.getMessage(), e);
             throw e;
         }
     }
     
-    // Операционная аналитика: среднее время аренды
     public Double getAverageRentalDuration(LocalDateTime start, LocalDateTime end) {
         try {
             String sql = """
                 SELECT avg(duration_seconds) / 60 as avg_minutes
                 FROM rental_events
                 WHERE timestamp BETWEEN ? AND ? 
-                    AND event_type = 'ended' 
+                    AND event_type = 'ended'   -- Важно: 'ended' (строчные)
                     AND duration_seconds > 0
             """;
             
             return jdbcTemplate.queryForObject(sql, Double.class, start, end);
         } catch (Exception e) {
-            log.error("Error getting average rental duration: {}", e.getMessage());
+            log.error("Error getting average rental duration: {}", e.getMessage(), e);
             return 0.0;
         }
     }
     
-    // Коэффициент использования самокатов
     public Double getScooterUtilization(String scooterId, LocalDateTime start, LocalDateTime end) {
         try {
             String sql = """
@@ -283,7 +304,6 @@ public class StatisticsRepository {
         }
     }
     
-    // Retention rate пользователей
     public Double getRetentionRate(LocalDateTime periodStart, LocalDateTime periodEnd) {
         try {
             String sql = """
@@ -314,7 +334,6 @@ public class StatisticsRepository {
     }
 }
 
-// Количество поездок по городам
 public List<TimeSeriesPoint> getTripsByCity(LocalDateTime start, LocalDateTime end, String city) {
     try {
         String sql = """
@@ -342,7 +361,6 @@ public List<TimeSeriesPoint> getTripsByCity(LocalDateTime start, LocalDateTime e
     }
 }
 
-// Статистика по пользователям
 public Long getActiveUsersCount(LocalDateTime start, LocalDateTime end) {
     try {
         String sql = """
@@ -358,7 +376,6 @@ public Long getActiveUsersCount(LocalDateTime start, LocalDateTime end) {
     }
 }
 
-// Общая выручка за период
 public Double getTotalRevenue(LocalDateTime start, LocalDateTime end) {
     try {
         String sql = """
@@ -375,7 +392,6 @@ public Double getTotalRevenue(LocalDateTime start, LocalDateTime end) {
     }
 }
 
-// Простая статистика в виде Map (альтернатива)
 public Map<String, Object> getBasicStats(LocalDateTime start, LocalDateTime end) {
     Map<String, Object> stats = new HashMap<>();
     try {

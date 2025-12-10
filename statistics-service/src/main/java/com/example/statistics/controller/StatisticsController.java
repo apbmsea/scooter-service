@@ -82,4 +82,72 @@ public class StatisticsController {
         
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/basic")
+    public ResponseEntity<Map<String, Object>> getBasicStats(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+        
+        Map<String, Object> stats = repository.getBasicStats(start, end);
+        stats.put("period", start + " to " + end);
+        return ResponseEntity.ok(stats);
+    }
+    
+    @GetMapping("/active-users")
+    public ResponseEntity<Map<String, Object>> getActiveUsers(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("active_users", repository.getActiveUsersCount(start, end));
+        response.put("period", start + " to " + end);
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/total-revenue")
+    public ResponseEntity<Map<String, Object>> getTotalRevenue(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("total_revenue", repository.getTotalRevenue(start, end));
+        response.put("period", start + " to " + end);
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/trips/city")
+    public ResponseEntity<StatisticResponse> getTripsByCity(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end,
+            @RequestParam String city) {
+        
+        StatisticResponse response = new StatisticResponse();
+        response.setData(repository.getTripsByCity(start, end, city));
+        response.setPeriod(start + " to " + end);
+        response.setMetric("trips_by_city_" + city);
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/scooter-utilization")
+    public ResponseEntity<Map<String, Object>> getScooterUtilization(
+            @RequestParam String scooterId,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime start,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime end) {
+        
+        Map<String, Object> response = new HashMap<>();
+        response.put("scooter_id", scooterId);
+        response.put("utilization_rate", repository.getScooterUtilization(scooterId, start, end));
+        response.put("period", start + " to " + end);
+        return ResponseEntity.ok(response);
+    }
+    
+    @GetMapping("/ping")
+    public ResponseEntity<Map<String, String>> ping() {
+        Map<String, String> response = new HashMap<>();
+        response.put("status", "OK");
+        response.put("timestamp", LocalDateTime.now().toString());
+        response.put("service", "Statistics Service");
+        return ResponseEntity.ok(response);
+    }
 }
+

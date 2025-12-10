@@ -10,23 +10,23 @@ import java.util.Properties;
 
 @Configuration
 public class ClickHouseConfig {
-    
+
     @Value("${clickhouse.url}")
     private String clickhouseUrl;
-    
+
     @Value("${clickhouse.username}")
     private String username;
-    
+
     @Value("${clickhouse.password}")
     private String password;
-    
+
     @Bean
     public DataSource clickHouseDataSource() throws SQLException {
         Properties properties = new Properties();
         properties.setProperty("user", username);
         properties.setProperty("password", password);
-        properties.setProperty("compress", "true");
-        
+        properties.setProperty("useHTTP", "true");
+
         return new ClickHouseDataSource(clickhouseUrl, properties);
     }
 }

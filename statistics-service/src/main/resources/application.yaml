@@ -4,10 +4,14 @@ server:
 spring:
   application:
     name: statistics-service
-  
+
   rabbitmq:
-    enabled: false
-    
+    host: 10.4.3.69
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
   jackson:
     serialization:
       write-dates-as-timestamps: false
@@ -15,10 +19,14 @@ spring:
       fail-on-unknown-properties: false
 
 clickhouse:
-  url: jdbc:ch:http://10.3.5.67:9000/statisticsDB
-  username: user
-  password: "user"
-  
+  url: jdbc:clickhouse://localhost:8123/statisticsDB?userHTTP=true&compress=0
+  username: default
+  password: user
+
 app:
   events:
-    enabled: false
+    enabled: true  
+    queues:
+      rental.events: rental_events_queue
+      payment.events: payment_events_queue
+      user.events: user_events_queue
