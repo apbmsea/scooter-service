@@ -27,6 +27,7 @@ export function renderHTML(path: string): string {
                     body {
                         display: flex;
                         flex-direction: column;
+                        background: white;
                     }
                     #app {
                         display: flex;
