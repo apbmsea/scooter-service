@@ -5,7 +5,6 @@ target/
 !**/src/test/**/target/
 !.gitignore
 #.env
-rabbitmqdata/
 redisdata/
 src/main/resources/META-INF
 

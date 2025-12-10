@@ -1,40 +1,4 @@
 services:
-  rabbitmq:
-    image: 'rabbitmq:latest'
-    container_name: 'postboy-rabbitmq'
-    hostname: 'rabbitmq'
-    restart: always
-    environment:
-      - 'RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}'
-      - 'RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}'
-      - 'RABBITMQ_CONFIG_FILE=/etc/rabbitmq/conf.d/rabbitmq.conf'
-    ports:
-      - '15672:15672'
-      - '5672:5672'
-    volumes:
-      - './rabbitmqdata/data:/var/lib/rabbitmq'
-      - './rabbitmqdata/rabbitmq:/etc/rabbitmq'
-      - './rabbitmqdata/log:/var/log/rabbitmq'
-    command: >
-      sh -c '
-        mkdir -p /etc/rabbitmq/conf.d &&
-        echo "# Log levels: debug, info, warning, error" >> /etc/rabbitmq/conf.d/rabbitmq.conf &&
-        echo "log.file.level=info" >> /etc/rabbitmq/conf.d/rabbitmq.conf &&
-        echo "log.console=true" >> /etc/rabbitmq/conf.d/rabbitmq.conf &&
-        echo "log.console.level=warning" >> /etc/rabbitmq/conf.d/rabbitmq.conf &&
-        echo "# Log file location" >> /etc/rabbitmq/conf.d/rabbitmq.conf &&
-        echo "log.file=/var/log/rabbitmq/rabbit.log" >> /etc/rabbitmq/conf.d/rabbitmq.conf &&
-        rabbitmq-plugins enable rabbitmq_management &&
-        rabbitmq-server
-      '
-    healthcheck:
-      test: [ "CMD", "rabbitmq-diagnostics", "-q", "ping" ]
-      interval: 30s
-      timeout: 30s
-      retries: 3
-    tty: true
-    stdin_open: true
-
   redis:
     image: 'redis:latest'
     container_name: 'postboy-redis'
