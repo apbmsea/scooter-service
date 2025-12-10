@@ -1,0 +1,32 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: statistics-service
+
+  rabbitmq:
+    host: 10.4.3.69
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+
+clickhouse:
+  url: jdbc:clickhouse://localhost:8123/statisticsDB?userHTTP=true&compress=0
+  username: default
+  password: user
+
+app:
+  events:
+    enabled: true  
+    queues:
+      rental.events: rental_events_queue
+      payment.events: payment_events_queue
+      user.events: user_events_queue
