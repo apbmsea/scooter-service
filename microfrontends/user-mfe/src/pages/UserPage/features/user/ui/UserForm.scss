@@ -1,0 +1,13 @@
+.user-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  max-width: 500px;
+
+  &__password {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
