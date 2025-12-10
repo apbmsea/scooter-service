@@ -11,15 +11,15 @@ interface Link {
 }
 
 const USER_LINKS: Link[] = [
-	{ href: '/admin-panel', label: 'Админ панель' },
-	{ href: '/monitoring/requests', label: 'Мониторинг Запросов' },
-	{ href: '/statistics', label: 'Статистика' }
+	{ href: '/home', label: 'Главная' },
+	{ href: '/link', label: 'Link' },
+	{ href: '/link', label: 'Link' }
 ];
 
 const OPERATOR_LINKS: Link[] = [
-	{ href: '/link', label: 'link' },
-	{ href: '/link', label: 'link' },
-	{ href: '/link', label: 'link' }
+	{ href: '/link', label: 'Link' },
+	{ href: '/link', label: 'Link' },
+	{ href: '/link', label: 'Link' }
 ];
 
 const ADMIN_LINKS: Link[] = [
