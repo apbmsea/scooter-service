@@ -12,8 +12,6 @@ interface Link {
 
 const USER_LINKS: Link[] = [
 	{ href: '/home', label: 'Главная' },
-	{ href: '/link', label: 'Link' },
-	{ href: '/link', label: 'Link' }
 ];
 
 const OPERATOR_LINKS: Link[] = [
