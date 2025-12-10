@@ -1,0 +1,15 @@
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/GeolocationServiceApplication.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/controller/ScooterSensorController.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/controller/ZoneController.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/enums/Status.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/enums/Type.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/models/ParkingZone.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/models/ScooterDTO.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/models/ScooterInfo.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/models/ScooterUpdateEvent.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/repos/ParkingZoneRepository.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/service/ScooterSensorService.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/service/ScooterUpdateReceiver.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/service/ZoneService.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/service/impl/ScooterSensorServiceImpl.java
+/Users/maksimkozhekin/IdeaProjects/scooter-service/services/GeolocationService/server/src/main/java/ru/max/geolocationservice/service/impl/ZoneServiceImpl.java
