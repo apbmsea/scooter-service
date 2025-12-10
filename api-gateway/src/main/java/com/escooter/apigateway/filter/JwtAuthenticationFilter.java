@@ -91,7 +91,6 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     }
 
     public static class Config {
-        // Конфигурация фильтра (можно расширить)
     }
 }
 

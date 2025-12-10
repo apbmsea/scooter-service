@@ -11,7 +11,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email"),
-        @UniqueConstraint(columnNames = "phone")  // ДОБАВЛЕНО: уникальность телефона
+        @UniqueConstraint(columnNames = "phone")  
 })
 @Data
 public class User {
@@ -31,7 +31,7 @@ public class User {
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-    @Column(unique = true)  // ДОБАВЛЕНО: unique constraint
+    @Column(unique = true)  
     private String phone;
 
     @Enumerated(EnumType.STRING)

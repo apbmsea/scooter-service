@@ -92,7 +92,7 @@ public class GatewayConfig {
                         )
                         .uri(userServiceUrl)
                 )
-                // User Service Routes - /users/** с Circuit Breaker, Retry и Rate Limiting
+
                 .route("user-service-users", r -> r
                         .path("/users/**")
                         .filters(f -> f
@@ -115,8 +115,7 @@ public class GatewayConfig {
                         )
                         .uri(userServiceUrl)
                 )
-                // Scooter 
-                // \]ervice Routes - исключаем composite endpoint
+                
                 .route("scooter-service", r -> r
                         .path("/scooters/**")
                         .and()
@@ -141,7 +140,7 @@ public class GatewayConfig {
                         )
                         .uri(scooterServiceUrl)
                 )
-                // Rental Service Routes
+                
                 .route("rental-service", r -> r
                         .path("/rentals/**")
                         .filters(f -> f
@@ -164,7 +163,7 @@ public class GatewayConfig {
                         )
                         .uri(rentalServiceUrl)
                 )
-                // Payment Service Routes
+                
                 .route("payment-service", r -> r
                         .path("/payment-methods/**")
                         .filters(f -> f

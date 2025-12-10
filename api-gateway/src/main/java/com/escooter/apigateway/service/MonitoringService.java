@@ -30,15 +30,12 @@ public class MonitoringService {
                 .type(type)
                 .build();
 
-        // Добавляем в очередь
         requestLogs.offer(request);
         
-        // Ограничиваем размер
         while (requestLogs.size() > MAX_LOGS) {
             requestLogs.poll();
         }
 
-        // Обновляем счетчики
         String key = service + ":" + status;
         requestCounts.merge(key, 1L, Long::sum);
         
@@ -54,7 +51,7 @@ public class MonitoringService {
         int count = 0;
         for (RequestDto request : requestLogs) {
             if (count >= limit) break;
-            recent.add(0, request); // Добавляем в начало для обратного порядка
+            recent.add(0, request); 
             count++;
         }
         return recent;

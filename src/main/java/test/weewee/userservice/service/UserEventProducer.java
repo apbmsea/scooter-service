@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
- * Сервис для отправки событий пользователей в RabbitMQ
+ * Отправка событий пользователей в RabbitMQ
  */
 @Slf4j
 @Service
@@ -21,9 +21,6 @@ public class UserEventProducer {
     private final RabbitTemplate rabbitTemplate;
     private static final String USER_EXCHANGE = "user.exchange";
 
-    /**
-     * Отправляет событие создания пользователя
-     */
     public void sendUserCreatedEvent(User user) {
         try {
             UserEvent event = UserEvent.builder()
@@ -41,13 +38,9 @@ public class UserEventProducer {
             log.info("User created event sent for user: {}", user.getEmail());
         } catch (Exception e) {
             log.error("Failed to send user created event for user: {}", user.getEmail(), e);
-            // Не прерываем основной flow, если RabbitMQ недоступен
         }
     }
 
-    /**
-     * Отправляет событие обновления пользователя
-     */
     public void sendUserUpdatedEvent(User user) {
         try {
             UserEvent event = UserEvent.builder()
@@ -68,9 +61,6 @@ public class UserEventProducer {
         }
     }
 
-    /**
-     * Отправляет событие удаления пользователя
-     */
     public void sendUserDeletedEvent(UUID userId, String email) {
         try {
             UserEvent event = UserEvent.builder()

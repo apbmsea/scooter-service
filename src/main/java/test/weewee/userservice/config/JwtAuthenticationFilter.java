@@ -39,7 +39,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // Пропускаем JWT проверку для эндпоинтов аутентификации (кроме logout)
+        
         String path = request.getServletPath();
         if (path.startsWith("/auth/") && !path.equals("/auth/logout")) {
             filterChain.doFilter(request, response);
@@ -150,9 +150,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         response.getWriter().flush();
     }
 
-    /**
-     * Агрессивная очистка токена от любых лишних символов
-     */
     private String cleanToken(String token) {
         if (token == null) {
             return null;

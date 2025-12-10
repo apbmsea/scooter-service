@@ -45,7 +45,6 @@ public class GlobalJwtAuthenticationFilter implements GlobalFilter, Ordered {
             String token = authHeader.substring(7);
             Claims claims = validateToken(token);
             
-            // Добавляем информацию о пользователе в заголовки для передачи в микросервисы
             ServerHttpRequest modifiedRequest = request.mutate()
                     .header("X-User-Id", claims.getSubject())
                     .header("X-User-Role", claims.get("role", String.class))

@@ -43,7 +43,6 @@ public class AuthenticationController {
         } catch (Exception e) {
             log.error("Registration failed for: {}", request.getEmail(), e);
 
-            // АНАЛИЗИРУЕМ ТИП ОШИБКИ ДЛЯ ПРАВИЛЬНОГО ПОЛЯ
             String errorMessage = e.getMessage();
             String message = "Ошибка регистрации";
             Map<String, String> errors = new HashMap<>();
@@ -99,7 +98,6 @@ public class AuthenticationController {
         } catch (Exception e) {
             log.error("Login failed for: {}", request.getEmail(), e);
 
-            // АНАЛИЗИРУЕМ ТИП ОШИБКИ ДЛЯ ПРАВИЛЬНОГО ПОЛЯ
             String errorMessage = e.getMessage();
             String message = "Ошибка входа";
             Map<String, String> errors = new HashMap<>();
@@ -186,7 +184,6 @@ public class AuthenticationController {
         } catch (Exception e) {
             log.error("Password reset failed for: {}", request.getEmail(), e);
 
-            // АНАЛИЗИРУЕМ ТИП ОШИБКИ ДЛЯ ПРАВИЛЬНОГО ПОЛЯ
             String errorMessage = e.getMessage();
             String message = "Ошибка сброса пароля";
             Map<String, String> errors = new HashMap<>();
@@ -212,7 +209,6 @@ public class AuthenticationController {
             if (jwtUtil.validateToken(token)) {
                 UUID userId = jwtUtil.getUserIdFromToken(token);
                 if (userId != null) {
-                    // Получаем email из БД по userId
                     return userService.findById(userId)
                             .map(User::getEmail)
                             .orElse(null);

@@ -273,7 +273,6 @@ public class UserController {
             if (jwtUtil.validateToken(token)) {
                 UUID userId = jwtUtil.getUserIdFromToken(token);
                 if (userId != null) {
-                    // Получаем email из БД по userId
                     return userService.findById(userId)
                             .map(User::getEmail)
                             .orElse(null);
