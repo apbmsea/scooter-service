@@ -9,13 +9,22 @@ const RequestsList = () => {
   const requests = useAppSelector((state) => state.requests);
 
   useEffect(() => {
-    dispatch(getRequestsRequest());
+    let interval: number | null = null;
 
-    const interval = setInterval(() => {
+    const checkPathAndFetch = () => {
+      if (window.location.pathname === '/monitoring/requests') {
+        dispatch(getRequestsRequest());
+      }
+    };
+
+    if (window.location.pathname === '/monitoring/requests') {
       dispatch(getRequestsRequest());
-    }, 5000);
+      interval = setInterval(checkPathAndFetch, 5000);
+    }
 
-    return () => clearInterval(interval);
+    return () => {
+      if (interval) clearInterval(interval);
+    };
   }, [dispatch]);
 
   return (
