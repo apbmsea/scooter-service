@@ -97,6 +97,10 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token) {
+        if (token == null || token.isEmpty()) {
+            return false;
+        }
+        
         try {
             log.debug("Validating token: {}...", token.substring(0, Math.min(30, token.length())));
 
