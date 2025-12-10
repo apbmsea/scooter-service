@@ -1,4 +1,15 @@
-module.exports = {
+import { Role } from '../constants';
+
+export interface EndpointConfig {
+	path: string;
+	allowedRoles: Role[];
+	meta: {
+		title: string;
+	};
+	microfrontends: string[];
+}
+
+export const endpointsConfig = {
 	endpoints: [
 		{
 			path: '/home',
@@ -10,6 +21,7 @@ module.exports = {
 		},
 
 		//auth-mfe
+
 		{
 			path: '/auth/register',
 			allowedRoles: ['unauthorized'],
@@ -36,6 +48,7 @@ module.exports = {
 		},
 
 		//user-mfe
+
 		{
 			path: '/users/me',
 			allowedRoles: ['user', 'operator', 'admin'],
@@ -46,6 +59,7 @@ module.exports = {
 		},
 
 		//admin-mfe
+
 		{
 			path: '/admin-panel',
 			allowedRoles: ['admin'],
@@ -56,6 +70,7 @@ module.exports = {
 		},
 
 		//monitoring-mfe
+		
 		{
 			path: '/monitoring/requests',
 			allowedRoles: ['admin'],
@@ -64,8 +79,6 @@ module.exports = {
 			},
 			microfrontends: ['header', 'monitoring']
 		},
-
-		//statica
 		{
 			path: '/404',
 			allowedRoles: ['unauthorized', 'user', 'operator', 'admin'],
@@ -74,5 +87,5 @@ module.exports = {
 			},
 			microfrontends: []
 		}
-	]
+	] as EndpointConfig[]
 };

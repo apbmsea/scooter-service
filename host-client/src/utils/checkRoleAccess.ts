@@ -1,15 +1,20 @@
-const { getUserRole } = require('./getUserRole');
-const endpointsConfig = require('../configs/endpoints.config');
-const { ROLES } = require('../constants');
+import { getUserRole } from './getUserRole';
+import { endpointsConfig } from '../configs/endpoints.config';
+import { ROLES, Role } from '../constants';
 
-async function checkRoleAccess(path, accessToken) {
+interface RoleAccessResult {
+	allowed: boolean;
+	userRole: Role | null;
+}
+
+export async function checkRoleAccess(path: string, accessToken?: string): Promise<RoleAccessResult> {
 	const endpoint = endpointsConfig.endpoints.find(e => e.path === path);
 
 	if (!endpoint || !endpoint.allowedRoles || endpoint.allowedRoles.length === 0) {
 		return { allowed: true, userRole: null };
 	}
 
-	let userRole;
+	let userRole: Role;
 	try {
 		userRole = await getUserRole(accessToken);
 	} catch (error) {
@@ -22,5 +27,3 @@ async function checkRoleAccess(path, accessToken) {
 		userRole: userRole
 	};
 }
-
-module.exports = { checkRoleAccess };

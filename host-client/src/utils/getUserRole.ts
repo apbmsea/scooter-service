@@ -1,8 +1,9 @@
-const axios = require('axios');
-const envConfig = require('../configs/env.config');
-const { ROLES, ROLE_MAP } = require('../constants');
+import axios from 'axios';
+import https from 'https';
+import { envConfig } from '../configs/env.config';
+import { ROLES, ROLE_MAP, Role } from '../constants';
 
-async function getUserRole(accessToken) {
+export async function getUserRole(accessToken?: string): Promise<Role> {
 	if (!accessToken) {
 		return ROLES.UNAUTHORIZED;
 	}
@@ -17,18 +18,16 @@ async function getUserRole(accessToken) {
 				withCredentials: true,
 				timeout: envConfig.api.timeout,
 				validateStatus: status => status < 500,
-				httpsAgent: new (require('https').Agent)({ rejectUnauthorized: false })
+				httpsAgent: new https.Agent({ rejectUnauthorized: false })
 			}
 		);
 		if (userResponse.status !== 200) {
 			return ROLES.UNAUTHORIZED;
 		}
 
-		return ROLE_MAP[userResponse.data.role] || ROLES.UNAUTHORIZED;
-	} catch (error) {
+		return ROLE_MAP[userResponse.data.role as keyof typeof ROLE_MAP] || ROLES.UNAUTHORIZED;
+	} catch (error: any) {
 		console.error('Ошибка получения роли пользователя:', error.message);
 		return ROLES.UNAUTHORIZED;
 	}
 }
-
-module.exports = { getUserRole };

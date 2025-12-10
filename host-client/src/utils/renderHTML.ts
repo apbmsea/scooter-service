@@ -1,7 +1,6 @@
-const { getConfigs } = require('./getConfigs');
-const envConfig = require('../configs/env.config');
+import { getConfigs } from './getConfigs';
 
-function renderHTML(path) {
+export function renderHTML(path: string): string {
 	const config = getConfigs(path);
 
 	return `
@@ -65,7 +64,3 @@ function renderHTML(path) {
         </html>
     `;
 }
-
-module.exports = {
-	renderHTML
-};

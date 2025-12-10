@@ -1,9 +1,9 @@
-const fs = require('fs');
-const path = require('path');
-const selfsigned = require('selfsigned');
-const envConfig = require('./configs/env.config');
+import fs from 'fs';
+import path from 'path';
+import selfsigned from 'selfsigned';
+import { envConfig } from './configs/env.config';
 
-async function generate() {
+async function generate(): Promise<void> {
     const certsDir = path.join(__dirname, envConfig.ssl.certDir);
     const keyPath = path.join(certsDir, envConfig.ssl.keyFile);
     const certPath = path.join(certsDir, envConfig.ssl.certFile);
@@ -18,7 +18,6 @@ async function generate() {
     try {
         pems = await selfsigned.generate(attrs, {
             keySize: 2048,
-            days: 365,
             algorithm: 'sha256',
             extensions: [
                 { name: 'basicConstraints', cA: false },
@@ -39,6 +38,7 @@ async function generate() {
             ],
         });
     } catch (err) {
+        console.log(err)
         process.exit(1);
     }
 
@@ -51,4 +51,4 @@ async function generate() {
     fs.writeFileSync(certPath, pems.cert);
 }
 
-module.exports = generate();
+export default generate();

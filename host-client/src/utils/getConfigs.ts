@@ -1,12 +1,27 @@
-const fs = require('fs');
-const path = require('path');
-const endpointsConfig = require('../configs/endpoints.config');
-const microfrontendsConfig = require('../configs/microfrontends.config');
-const envConfig = require('../configs/env.config');
-const { MFE_SUFFIX } = require('../constants');
+import fs from 'fs';
+import path from 'path';
+import { endpointsConfig } from '../configs/endpoints.config';
+import { microfrontendsConfig } from '../configs/microfrontends.config';
+import { envConfig } from '../configs/env.config';
+import { MFE_SUFFIX } from '../constants';
 
-function getAssets(names) {
-	const assets = {
+interface Assets {
+	css: string[];
+	js: string[];
+	rootDivs: string[];
+	mountScripts: string[];
+}
+
+interface PageConfig {
+	title: string;
+	css: string;
+	js: string;
+	rootDivs: string;
+	mountScripts: string;
+}
+
+function getAssets(names: string[]): Assets {
+	const assets: Assets = {
 		css: [],
 		js: [],
 		rootDivs: [],
@@ -14,9 +29,7 @@ function getAssets(names) {
 	};
 
 	names.forEach(name => {
-		const mfe = microfrontendsConfig.microfrontends.find(
-			m => m.name === name
-		);
+		const mfe = microfrontendsConfig.microfrontends.find(m => m.name === name);
 		if (!mfe) throw new Error(`Микрофронтенд ${name} не найден`);
 
 		const rootId = `${name}${MFE_SUFFIX.ROOT}`;
@@ -29,9 +42,9 @@ function getAssets(names) {
 		);
 		assets.mountScripts.push(`
 			<script>
- 				document.addEventListener('DOMContentLoaded', () => {
-    				window.__${name.toUpperCase()}${MFE_SUFFIX.MOUNT} && window.__${name.toUpperCase()}${MFE_SUFFIX.MOUNT}('${rootId}');
-  				});
+ 			document.addEventListener('DOMContentLoaded', () => {
+    			window.__${name.toUpperCase()}${MFE_SUFFIX.MOUNT} && window.__${name.toUpperCase()}${MFE_SUFFIX.MOUNT}('${rootId}');
+  			});
 			</script>
     `);
 	});
@@ -39,7 +52,7 @@ function getAssets(names) {
 	return assets;
 }
 
-function getStaticPageContent(staticPath) {
+function getStaticPageContent(staticPath: string): string | null {
 	const staticFilePath = path.join(__dirname, '../static', `${staticPath}.html`);
 	try {
 		if (fs.existsSync(staticFilePath)) {
@@ -51,11 +64,11 @@ function getStaticPageContent(staticPath) {
 	return null;
 }
 
-function getConfigs(routePath) {
+export function getConfigs(routePath: string): PageConfig {
 	const endpoint = endpointsConfig.endpoints.find(e => e.path === routePath);
 	if (!endpoint) throw new Error(`Эндпоинт не найден по пути "${routePath}"`);
 
-	let assets;
+	let assets: Assets | { css: string[]; js: string[]; rootDivs: string | string[]; mountScripts: string[] };
 	if (endpoint.microfrontends.length > 0) {
 		assets = getAssets(endpoint.microfrontends);
 	} else {
@@ -65,9 +78,7 @@ function getConfigs(routePath) {
 		assets = {
 			css: [],
 			js: [],
-			rootDivs: staticContent || [
-				'<div id="app-content">Ошибка сервера</div>'
-			],
+			rootDivs: staticContent || ['<div id="app-content">Ошибка сервера</div>'],
 			mountScripts: []
 		};
 	}
@@ -82,7 +93,3 @@ function getConfigs(routePath) {
 		mountScripts: assets.mountScripts.join('\n    ')
 	};
 }
-
-module.exports = {
-	getConfigs
-};

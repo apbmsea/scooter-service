@@ -1,15 +1,14 @@
-const express = require('express');
+import express from 'express';
+import { createProxyMiddleware } from 'http-proxy-middleware';
+import { renderHTML } from '../utils/renderHTML';
+import { getConfigs } from '../utils/getConfigs';
+import { roleMiddleware } from '../middleware/roleMiddleware';
+import { checkRoleAccess } from '../utils/checkRoleAccess';
+import { microfrontendsConfig } from '../configs/microfrontends.config';
+import { endpointsConfig } from '../configs/endpoints.config';
+import { PATHS, MFE_SUFFIX } from '../constants';
+
 const router = express.Router();
-const { renderHTML } = require('../utils/renderHTML');
-const { getConfigs } = require('../utils/getConfigs');
-const roleMiddleware = require('../middleware/roleMiddleware');
-const { checkRoleAccess } = require('../utils/checkRoleAccess');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-const microfrontendsConfig = require('../configs/microfrontends.config');
-const endpointsConfig = require('../configs/endpoints.config');
-const { PATHS, MFE_SUFFIX } = require('../constants');
-const axios = require('axios');
-const envConfig = require('../configs/env.config');
 
 microfrontendsConfig.microfrontends.forEach(mfe => {
 	const assetsPath = `/${mfe.name}${MFE_SUFFIX.ASSETS}`;
@@ -70,7 +69,7 @@ router.get(/^\/api\/page-config\/(.*)$/, async (req, res) => {
 			microfrontends: endpoint.microfrontends,
 			rootDivs: config.rootDivs
 		});
-	} catch (error) {
+	} catch (error: any) {
 		res.status(404).json({ error: error.message });
 	}
 });

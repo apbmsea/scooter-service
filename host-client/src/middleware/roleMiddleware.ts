@@ -1,16 +1,15 @@
-const { getUserRole } = require('../utils/getUserRole');
-const endpointsConfig = require('../configs/endpoints.config');
-const { ROLES, PATHS } = require('../constants');
+import { Request, Response, NextFunction } from 'express';
+import { getUserRole } from '../utils/getUserRole';
+import { endpointsConfig } from '../configs/endpoints.config';
+import { ROLES, PATHS } from '../constants';
 
-async function roleMiddleware(req, res, next) {
+export async function roleMiddleware(req: Request, res: Response, next: NextFunction): Promise<void> {
 	if (req.path.startsWith('/api') || req.path.includes('.')) {
 		return next();
 	}
 
 	try {
-		const endpoint = endpointsConfig.endpoints.find(
-			e => e.path === req.path
-		);
+		const endpoint = endpointsConfig.endpoints.find(e => e.path === req.path);
 
 		if (!endpoint) {
 			return next();
@@ -40,5 +39,3 @@ async function roleMiddleware(req, res, next) {
 		return res.redirect(PATHS.HOME);
 	}
 }
-
-module.exports = roleMiddleware;
