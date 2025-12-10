@@ -39,7 +39,6 @@ public class CompositeEndpointController {
     public Mono<ResponseEntity<Map<String, Object>>> getScooterDetails(@PathVariable String id) {
         log.info("Fetching full details for scooter: {}", id);
 
-        // Шаг 1: Получаем данные самоката
         Mono<Map<String, Object>> scooterMono = scooterServiceClient
                 .get()
                 .uri("/scooters/{id}", id)

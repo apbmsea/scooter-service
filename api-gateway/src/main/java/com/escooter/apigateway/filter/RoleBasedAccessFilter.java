@@ -28,7 +28,6 @@ public class RoleBasedAccessFilter extends AbstractGatewayFilterFactory<RoleBase
             String path = request.getURI().getPath();
             String userRole = request.getHeaders().getFirst("X-User-Role");
 
-            // Проверяем, требуется ли роль для этого эндпоинта
             if (config.getRequiredRoles() != null && !config.getRequiredRoles().isEmpty()) {
                 if (userRole == null || !config.getRequiredRoles().contains(userRole)) {
                     log.warn("Access denied for path: {} with role: {}", path, userRole);

@@ -35,7 +35,6 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             ServerHttpRequest request = exchange.getRequest();
             String path = request.getURI().getPath();
 
-            // Пропускаем публичные эндпоинты
             if (isPublicEndpoint(path)) {
                 return chain.filter(exchange);
             }
@@ -50,7 +49,6 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                 String token = authHeader.substring(7);
                 Claims claims = validateToken(token);
                 
-                // Добавляем информацию о пользователе в заголовки для передачи в микросервисы
                 ServerHttpRequest modifiedRequest = request.mutate()
                         .header("X-User-Id", claims.getSubject())
                         .header("X-User-Role", claims.get("role", String.class))

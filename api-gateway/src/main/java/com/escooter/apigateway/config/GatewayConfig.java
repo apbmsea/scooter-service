@@ -29,7 +29,7 @@ public class GatewayConfig {
     @Value("${gateway.services.payment-service.url}")
     private String paymentServiceUrl;
 
-    // Rate Limiting конфигурации для разных типов endpoints
+    // Rate Limiting конфигурацияя
     @Value("${rate.limit.auth.capacity:10}")
     private int authCapacity;
 
@@ -69,7 +69,7 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                // User Service Routes - /auth/** с Circuit Breaker, Retry и Rate Limiting
+                
                 .route("user-service-auth", r -> r
                         .path("/auth/**")
                         .filters(f -> f

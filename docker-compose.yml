@@ -14,7 +14,7 @@ services:
       - postgres_data:/var/lib/postgresql/data
 
   user-service-app:
-    build: .
+    build: ./user-service
     container_name: user-service
     ports:
       - "8080:8080"
@@ -28,7 +28,7 @@ services:
       - SPRING_RABBITMQ_USERNAME=admin
       - SPRING_RABBITMQ_PASSWORD=admin123
     volumes:
-      - ./src/main/resources/keystore.p12:/app/keystore.p12:ro
+      - ./user-service/src/main/resources/keystore.p12:/app/keystore.p12:ro
     depends_on:
       - postgres
       - rabbitmq
@@ -41,7 +41,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     volumes:
-      - ./src/main/resources/keystore.p12:/app/keystore.p12:ro
+      - ./user-service/src/main/resources/keystore.p12:/app/keystore.p12:ro
     depends_on:
       - user-service-app
       - redis

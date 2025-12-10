@@ -30,7 +30,6 @@ public class GlobalJwtAuthenticationFilter implements GlobalFilter, Ordered {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
 
-        // Пропускаем публичные эндпоинты
         if (isPublicEndpoint(path)) {
             return chain.filter(exchange);
         }
