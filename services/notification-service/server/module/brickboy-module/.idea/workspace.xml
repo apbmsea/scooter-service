@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="a7ab6fdf-9f8d-4dd6-924e-9a30b29817ff" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/DTO/Adds/AdditionalData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/DTO/Adds/DataDTORebbitINeventAdds.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/DTO/Adds/Segments.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/DTO/BufferUsers/BatchDataDTOusers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/DTO/DtoTempldata.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/DTO/Users/AdditionalUsersData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/DTO/Users/DataDTORebbitINusersData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/DTO/addsBufer/BatchDataDTOadds.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/UseCase/Adds/UseCaseAdds.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Aplication/UseCase/Users/UseCaseUsers.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Infrastructure/Entity/v1/Mapper/RebbitDataMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Infrastructure/Service/v1/Redis/RedisService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Presentation/MainController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Presentation/RebbitController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/Presentation/TestRedisController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/RedisConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/java/one_module/WebSecurityConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../one_module/src/main/resources/application.properties" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$/../../../../.." value="notification-service-brickboy" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../.." />
+  </component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/apbmsea/scooter-service.git",
+    "accountId": "3b0df5f8-fee8-48dc-a9b0-023aba5e59bb"
+  }
+}]]></component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "one__module",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)"
+  }
+}]]></component>
+  <component name="TaskManager">
+    <servers />
+  </component>
+</project>
