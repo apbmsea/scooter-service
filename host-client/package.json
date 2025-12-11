@@ -1,0 +1,37 @@
+{
+  "name": "host",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc && npm run lint && node build-public.js",
+    "dev": "npm run build && ts-node src/server.ts",
+    "start": "node dist/server.js",
+    "lint": "eslint --config eslint.config.mjs src/**/*.ts",
+    "lint:fix": "eslint --config eslint.config.mjs src/**/*.ts --fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.13.2",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "http-proxy-middleware": "^3.0.5",
+    "scooter-shared": "^0.1.0",
+    "selfsigned": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.0.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.0"
+  }
+}

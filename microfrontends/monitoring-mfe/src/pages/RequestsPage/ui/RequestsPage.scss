@@ -1,0 +1,12 @@
+.requests-page {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+
+  @media (max-width: 768px) {
+    padding: 12px;
+  }
+}
