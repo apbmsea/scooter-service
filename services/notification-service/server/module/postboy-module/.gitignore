@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 !.gitignore
-#.env
+.env
 redisdata/
 src/main/resources/META-INF
 
