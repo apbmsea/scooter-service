@@ -1,6 +1,5 @@
 package brickboy.Infrastructure.Repository.Logi;
 
-import brickboy.Infrastructure.Entity.v1.EventDataAdmin;
 import brickboy.Infrastructure.Entity.v1.Logi.EventDataLogi;
 import brickboy.Infrastructure.Implimentation.v1.RepositoryEventDataLogiIml;
 import jakarta.transaction.Transactional;
@@ -13,7 +12,7 @@ public class EventDataLogiRepoService {
     @Autowired
     private RepositoryEventDataLogiIml repositoryEventDataLogiIml;
 
-    public EventDataAdmin SaveLogEvent(EventDataLogi event) {
+    public EventDataLogi SaveLogEvent(EventDataLogi event) {
         return repositoryEventDataLogiIml.save(event);
     }
 

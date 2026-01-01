@@ -14,6 +14,6 @@ public class App {
         System.out.println("Hello World!");
         Dotenv dotenv = Dotenv.load();
         SpringApplication.run(App.class, args);
-        System.out.println("Buy World!");
+        System.out.println("Worked!.......");
     }
 }

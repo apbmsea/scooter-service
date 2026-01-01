@@ -29,7 +29,10 @@ public class UseCaseAdminEvent {
         // то тут должна быть проверка есть ли тут этот файл по пришедшему пути и есть ли он в базе
         // но будет тупая проверка на не пустой ли путь до файла (да халтура :( )
         if (adminEventDtoSave.getPatchToFile() != "") {
+
             EventDataAdmin eventDataAdmin = eventListMapper.map(adminEventDtoSave);
+            System.out.println("BEFORE MAPPER: Body = " + adminEventDtoSave.getBody());
+
 
             try {
                 saveLog(eventDataAdmin);

@@ -10,6 +10,7 @@ import brickboy.Aplication.useCase.v1.UseCaseProdusser;
 import brickboy.Infrastructure.Entity.v1.EventDataAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,9 @@ public class ControlerAdminData {
     private UseCaseProdusser useCaseProdusser;
 
     @PostMapping("/event/save")
-    public ResponseEntity<String> addEvent(@RequestBody AdminEventDtoSave dto) {
+    public ResponseEntity<AdminEventDtoSave> addEvent(@RequestBody AdminEventDtoSave dto) {
         useCaseAdminEvent.newAdminEvent(dto);
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/event/get")
@@ -48,19 +49,20 @@ public class ControlerAdminData {
 //    }
 
 
-    @PostMapping("/files/upload")
-    public ResponseEntity<?> handleFileUpload(@RequestBody FileFrontDtoSave dto) {
+    @PostMapping(value = "/files/upload", consumes = "multipart/form-data")
+    public ResponseEntity<?> handleFileUpload(@ModelAttribute FileFrontDtoSave dto) {
         if (dto.getFile().isEmpty()) {
             return ResponseEntity.badRequest().body("No file provided!");
         }
         try {
-
-            return ResponseEntity.ok(useCaseImage.GetAndSaveImage(dto));
+            useCaseImage.GetAndSaveImage(dto); // Логика делегирована сервису
+            return ResponseEntity.ok("ok");
         } catch (Exception e) {
-            return ResponseEntity.ok("File invalid! or ERROR:" + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Error processing the uploaded file: " + e.getMessage());
         }
-
     }
+
 
     @PostMapping("/filles/update")
     public ResponseEntity<?> handleFileUpdate(@RequestBody FileFrontDTOUpdate dto) {
@@ -75,17 +77,17 @@ public class ControlerAdminData {
         }
     }
 
-    @PostMapping
+    @PostMapping("/start")
     public ResponseEntity<String> startEvent(@RequestBody FrontStartEvent dto) {
         useCaseProdusser.produserPublic(dto);
         return ResponseEntity.ok("OR");
     }
 
 
-    //  @PostMapping("/template/save")
-    //   public ResponseEntity<String>saveTemplate(@RequestBody ){
-    //      return ResponseEntity.ok("OK");
-    //  }
+//  @PostMapping("/template/save")
+//   public ResponseEntity<String>saveTemplate(@RequestBody ){
+//      return ResponseEntity.ok("OK");
+//  }
 
 //    @PostMapping("/teplate/get")
 

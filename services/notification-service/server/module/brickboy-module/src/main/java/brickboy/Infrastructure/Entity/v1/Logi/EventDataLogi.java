@@ -17,8 +17,8 @@ public class EventDataLogi {
     @Column(nullable = false)
     private String header;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String budy;
+    @Column( name="body" ,nullable = false, length = 4000)
+    private String body;
 
     @Column(nullable = false)
     private UUID id_temlate;
@@ -26,7 +26,6 @@ public class EventDataLogi {
     @Column(nullable = false)
     private UUID creator;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "registration_time", nullable = false, updatable = false)
     @CreationTimestamp
     private Date dateCreated;
@@ -58,12 +57,12 @@ public class EventDataLogi {
         this.header = header;
     }
 
-    public String getBudy() {
-        return budy;
+    public String getBody() {
+        return body;
     }
 
-    public void setBudy(String budy) {
-        this.budy = budy;
+    public void setBody(String body) {
+        this.body = body;
     }
 
     public UUID getId_temlate() {
@@ -97,5 +96,4 @@ public class EventDataLogi {
     public void setPatchToImage(String patchToImage) {
         this.patchToImage = patchToImage;
     }
-
 }

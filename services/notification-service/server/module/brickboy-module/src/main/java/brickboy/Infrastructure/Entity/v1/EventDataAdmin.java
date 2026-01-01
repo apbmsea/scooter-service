@@ -18,8 +18,8 @@ public class EventDataAdmin {
     @Column(nullable = false)
     private String header;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String budy;
+    @Column( name="body" ,nullable = false, length = 4000)
+    private String body;
 
     @Column(nullable = false)
     private UUID id_temlate;
@@ -27,7 +27,6 @@ public class EventDataAdmin {
     @Column(nullable = false)
     private UUID creator;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "registration_time", nullable = false, updatable = false)
     @CreationTimestamp
     private Date dateCreated;
@@ -59,12 +58,20 @@ public class EventDataAdmin {
         this.header = header;
     }
 
-    public String getBudy() {
-        return budy;
+    public String getBody() {
+        return body;
     }
 
-    public void setBudy(String budy) {
-        this.budy = budy;
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public UUID getId_temlate() {
+        return id_temlate;
+    }
+
+    public void setId_temlate(UUID id_temlate) {
+        this.id_temlate = id_temlate;
     }
 
     public UUID getCreator() {
@@ -89,14 +96,6 @@ public class EventDataAdmin {
 
     public void setPatchToImage(String patchToImage) {
         this.patchToImage = patchToImage;
-    }
-
-    public UUID getId_temlate() {
-        return id_temlate;
-    }
-
-    public void setId_temlate(UUID id_temlate) {
-        this.id_temlate = id_temlate;
     }
 }
 
